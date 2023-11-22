@@ -3,7 +3,7 @@ version: "3.8"
 services:
   backend:
     build: ./backend
-    container_name: "backend"
+    container_name: "uecs_navi_creator_backend"
     ports:
       - "8000:8000"
     volumes:
@@ -13,7 +13,7 @@ services:
 
   frontend:
     build: ./frontend
-    container_name: "frontend"
+    container_name: "uecs_navi_creator_frontend"
     ports:
       - "3000:3000"
     volumes:
@@ -21,7 +21,7 @@ services:
 
   db:
     image: mysql:8.2
-    container_name: db
+    container_name: "uecs_navi_creator_db"
     ports:
       - "3306:3306"
     environment:
