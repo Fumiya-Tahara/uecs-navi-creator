@@ -18,6 +18,7 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend:/app/frontend
+    command: ["npm", "run", "dev"]
 
   db:
     image: mysql:8.2
