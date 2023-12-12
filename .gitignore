@@ -1,2 +1,4 @@
 .env
 /mysql
+backend/alembic.ini
+**/__pycache__

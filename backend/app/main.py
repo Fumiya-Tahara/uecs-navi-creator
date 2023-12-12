@@ -15,7 +15,6 @@ def get_db():
     finally:
         db.close()
 
-# CRUD operations
 def create_uecs(db: Session, uecs_data: UecsCreator):
     db_uecs = Uecs(**uecs_data.dict())
     db.add(db_uecs)
