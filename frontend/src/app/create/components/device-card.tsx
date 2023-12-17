@@ -4,7 +4,7 @@ interface DeviceCardProps {
   deviceName: string;
 }
 
-function DeviceCard(props: DeviceCardProps) {
+export function DeviceCard(props: DeviceCardProps) {
   return (
     <>
       <Card
@@ -23,5 +23,3 @@ function DeviceCard(props: DeviceCardProps) {
     </>
   );
 }
-
-export default DeviceCard;
