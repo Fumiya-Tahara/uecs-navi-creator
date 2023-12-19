@@ -5,7 +5,8 @@ import SensorsIcon from "@mui/icons-material/Sensors";
 import { DeviceCard } from "./device-card";
 import { grey } from "@mui/material/colors";
 import { useState } from "react";
-
+import { tabIconTheme } from "@/app/themes/theme";
+import { ThemeProvider } from "@mui/material/styles";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -33,24 +34,18 @@ export function Sidebar(props: SidebarProps) {
 
   return (
     <div className="w-1/5 h-full">
-      <Tabs
-        value={value}
-        sx={{ backgroundColor: grey[900] }}
-        onChange={handleChange}
-      >
-        <Tab
-          value={0}
-          sx={{ color: grey[50] }}
-          icon={<DevicesIcon />}
-          label="DEVICES"
-        />
-        <Tab
-          value={1}
-          sx={{ color: grey[50] }}
-          icon={<SensorsIcon />}
-          label="SENSOR"
-        />
-      </Tabs>
+      <ThemeProvider theme={tabIconTheme}>
+        <Tabs
+          value={value}
+          sx={{ backgroundColor: grey[900] }}
+          textColor="primary"
+          indicatorColor="primary"
+          onChange={handleChange}
+        >
+          <Tab value={0} icon={<DevicesIcon />} label="DEVICES" />
+          <Tab value={1} icon={<SensorsIcon />} label="SENSOR" />
+        </Tabs>
+      </ThemeProvider>
       <div className="bg-gray-50 h-full">
         <TabPanel value={value} index={0}>
           <List
