@@ -16,6 +16,8 @@ interface SidebarTabPanelProps {
 interface SidebarProps {
   deviceList: string[];
   sensorList: string[];
+  selectedDevice: number[];
+  setSelectedDevice: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 const SidebarTabPanel = (props: SidebarTabPanelProps) => {
@@ -25,10 +27,19 @@ const SidebarTabPanel = (props: SidebarTabPanelProps) => {
 };
 
 export default function Sidebar(props: SidebarProps) {
+  const { deviceList, sensorList, selectedDevice, setSelectedDevice } = props;
   const [value, setValue] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+  };
+
+  const handleListItemClick = (event: React.SyntheticEvent, index: number) => {
+    if (selectedDevice.includes(index)) {
+      return;
+    } else {
+      setSelectedDevice((prevSelectedDevice) => [...prevSelectedDevice, index]);
+    }
   };
 
   return (
@@ -55,8 +66,12 @@ export default function Sidebar(props: SidebarProps) {
               alignItems: "center",
             }}
           >
-            {props.deviceList.map((deviceName) => (
-              <ListItem key={deviceName} sx={{ width: "80%" }}>
+            {deviceList.map((deviceName, index) => (
+              <ListItem
+                key={index}
+                sx={{ width: "80%" }}
+                onClick={(event) => handleListItemClick(event, index)}
+              >
                 <DeviceCard deviceName={deviceName} />
               </ListItem>
             ))}
@@ -71,7 +86,7 @@ export default function Sidebar(props: SidebarProps) {
               alignItems: "center",
             }}
           >
-            {props.sensorList.map((sensorName) => (
+            {sensorList.map((sensorName) => (
               <ListItem key={sensorName} sx={{ width: "80%" }}>
                 <DeviceCard deviceName={sensorName} />
               </ListItem>
