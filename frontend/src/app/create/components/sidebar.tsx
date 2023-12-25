@@ -16,8 +16,8 @@ interface SidebarTabPanelProps {
 interface SidebarProps {
   deviceList: string[];
   sensorList: string[];
-  selectedDevice: number[];
-  setSelectedDevice: React.Dispatch<React.SetStateAction<number[]>>;
+  selectedDeviceIndex: number[];
+  setSelectedDeviceIndex: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 const SidebarTabPanel = (props: SidebarTabPanelProps) => {
@@ -27,7 +27,12 @@ const SidebarTabPanel = (props: SidebarTabPanelProps) => {
 };
 
 export default function Sidebar(props: SidebarProps) {
-  const { deviceList, sensorList, selectedDevice, setSelectedDevice } = props;
+  const {
+    deviceList,
+    sensorList,
+    selectedDeviceIndex,
+    setSelectedDeviceIndex,
+  } = props;
   const [value, setValue] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -35,10 +40,13 @@ export default function Sidebar(props: SidebarProps) {
   };
 
   const handleListItemClick = (event: React.SyntheticEvent, index: number) => {
-    if (selectedDevice.includes(index)) {
+    if (selectedDeviceIndex.includes(index)) {
       return;
     } else {
-      setSelectedDevice((prevSelectedDevice) => [...prevSelectedDevice, index]);
+      setSelectedDeviceIndex((preSelectedDeviceIndex) => [
+        ...preSelectedDeviceIndex,
+        index,
+      ]);
     }
   };
 

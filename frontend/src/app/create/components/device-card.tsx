@@ -9,6 +9,7 @@ export function DeviceCard(props: DeviceCardProps) {
     <>
       <Card
         sx={{
+          fontWeight: "bold",
           backgroundColor: "#D9D9D9",
           borderRadius: "10px",
           width: "100%",

@@ -1,8 +1,8 @@
 "use client";
-// import "../styles/maintabs.css";
-import { List, ListItem, Tab, Tabs } from "@mui/material";
+import { List, ListItem, Tab, Tabs, Button } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
+import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import { tabIconTheme } from "@/app/themes/theme";
 
@@ -15,8 +15,8 @@ interface MainTabPanelProps {
 interface MainTabProps {
   deviceList: string[];
   sensorList: string[];
-  selectedDevice: number[];
-  setSelectedDevice: React.Dispatch<React.SetStateAction<number[]>>;
+  selectedDeviceIndex: number[];
+  setSelectedDeviceIndex: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 const MainTabPanel = (props: MainTabPanelProps) => {
@@ -25,18 +25,30 @@ const MainTabPanel = (props: MainTabPanelProps) => {
 };
 
 export default function MainTabs(props: MainTabProps) {
-  const { deviceList, sensorList, selectedDevice, setSelectedDevice } = props;
+  const {
+    deviceList,
+    sensorList,
+    selectedDeviceIndex,
+    setSelectedDeviceIndex,
+  } = props;
   const [value, setValue] = useState(0);
   let deviceInPanel: string[] = [];
 
-  if (selectedDevice != undefined) {
-    for (let i = 0; i < selectedDevice.length; i++) {
-      deviceInPanel.push(deviceList[selectedDevice[i]]);
+  if (selectedDeviceIndex != undefined) {
+    for (let i = 0; i < selectedDeviceIndex.length; i++) {
+      deviceInPanel.push(deviceList[selectedDeviceIndex[i]]);
     }
   }
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+  };
+
+  const handleDeleteDevice = (deviceName: string) => {
+    const newSelectedDeviceIndex: number[] = selectedDeviceIndex.filter(
+      (selectedDevice) => deviceList[selectedDevice] != deviceName
+    );
+    setSelectedDeviceIndex(newSelectedDeviceIndex);
   };
 
   return (
@@ -56,30 +68,63 @@ export default function MainTabs(props: MainTabProps) {
           variant="scrollable"
           textColor="primary"
           indicatorColor="primary"
-          onChange={handleChange}
+          onChange={handleTabChange}
           sx={{ backgroundColor: grey[900] }}
         >
           <Tab value={0} label="選択デバイス" />
-          <Tab value={1} label="加温機" />
+          {deviceInPanel.map((device, index) => {
+            return <Tab key={index} value={index + 1} label={device} />;
+          })}
         </Tabs>
       </ThemeProvider>
       <div>
         <MainTabPanel value={value} index={0}>
           <List>
-            {deviceInPanel.map((devicename, index) => {
+            {deviceInPanel.map((deviceName, index) => {
               return (
                 <ListItem key={index}>
-                  <div>{devicename}</div>
+                  <div style={{ width: "70%" }}>{deviceName}</div>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    sx={{ width: "15%" }}
+                    onClick={() => setValue(index + 1)}
+                  >
+                    パラメータ設定
+                  </Button>
+                  <div
+                    style={{
+                      width: "15%",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      size="small"
+                      onClick={() => handleDeleteDevice(deviceName)}
+                    >
+                      <CloseIcon color="error" />
+                    </Button>
+                  </div>
                 </ListItem>
               );
             })}
           </List>
         </MainTabPanel>
+        {deviceInPanel.map((device, index) => {
+          return (
+            <MainTabPanel key={index} value={value} index={index + 1}>
+              <List>
+                <ListItem></ListItem>
+              </List>
+            </MainTabPanel>
+          );
+        })}
         <MainTabPanel value={value} index={1}>
           <List>
-            <ListItem>
-              <div>Sensor</div>
-            </ListItem>
+            <ListItem></ListItem>
           </List>
         </MainTabPanel>
       </div>

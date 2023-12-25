@@ -15,7 +15,7 @@ export const tabIconTheme = createTheme({
             color: grey[50],
           },
           "&.MuiTab-textColorPrimary:not(.Mui-selected)": {
-            color: grey[600],
+            color: grey[500],
           },
         },
       },
