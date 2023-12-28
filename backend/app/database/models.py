@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, Interval, String, Time
+from sqlalchemy import Column, ForeignKey, Integer, Interval, String, Time,LargeBinary,SmallInteger
 from pydantic import BaseModel, conint, Field,constr
 from typing import List
 from app.database.settings import Base
@@ -65,16 +65,22 @@ from sqlalchemy.orm import relationship
 #   個体識別情報
 
 class BlockA(BaseModel):
-    uecsid: bytes = Field(..., max_length=6)
-    macaddr: bytes = Field(..., max_length=6)
-    fix_dhcp_flag: bytes = Field(..., max_length=1) # DHCPか固定IPかの指定(0xff:DHCP,0x00:固定IP)
-    fixed_ipaddress: bytes = Field(..., max_length=4)
-    fixed_netmask: bytes = Field(..., max_length=4)
-    fixed_defgw: bytes = Field(..., max_length=4)
-    fixed_dns: bytes = Field(..., max_length=4)
-    vender_name: str= Field(..., max_length=16) # ベンダー名 (ASCIZ文字列)
-    node_name: str= Field(..., max_length=16) #　ノード名 (ASCIZ文字列)
-    
+    _tablename__ = 'block_a'
+    uecsid = Column(Integer, primary_key=True) 
+    macaddr = Column(LargeBinary)
+    fix_dhcp_flag = Column(SmallInteger) # DHCPか固定IPかの指定(0xff:DHCP,0x00:固定IP)
+    fixed_ipaddress = Column(LargeBinary)
+    fixed_netmask = Column(LargeBinary)
+    fixed_defgw = Column(LargeBinary)
+    fixed_dns = Column(LargeBinary)
+    vender_name= Column(String(16)) # ベンダー名 (ASCIZ文字列)
+    node_name= Column(String(16)) #　ノード名 (ASCIZ文字列)
+     # BlockBItemとのリレーションシップ
+    BlockB_items = relationship("BlockBItem", back_populates="block_a")
+     # BlockCItemとのリレーションシップ
+    BlockC_items = relationship("BlockCItem", back_populates="block_a")
+     # BlockDItemとのリレーションシップ
+    BlockD_items = relationship("BlockDItem", back_populates="block_a")
     # アドレス(番地)即値
 
 #  stM304 Address
@@ -93,25 +99,27 @@ class BlockA(BaseModel):
 #  受信CCM情報
 
 class BlockBItem(BaseModel):
-    block_a_id: int  # BlockAのIDを参照,ブロックAとブロックBのリレーション
-    valid: bytes = Field(..., max_length=1)
-    room: bytes = Field(..., max_length=1)
-    region: bytes = Field(..., max_length=1)
-    order: conint(ge=0)  # 0以上の整数,unsignedの代わり
-    priority: bytes = Field(..., max_length=1)
-    lv: int = Field(..., ge=1, le=10) #lvは1から10
-    cast: bytes = Field(..., max_length=1)
-    sr: str
-    ccm_type: str = Field(..., min_length=1, max_length=20)
-    unit: str = Field(..., min_length=1, max_length=10)
-    sthr: int = Field(..., ge=0, le=23) #  反映時間帯開始時間 (0〜23)
-    stmn: int = Field(..., ge=0, le=59)# 反映時間帯開始分 (0〜59)
-    edhr: int= Field(..., ge=0, le=23) #反映時間帯終了時間 (0〜23)
-    edmn: int= Field(..., ge=0, le=59) #反映時間帯終了分 (0〜59)
-    inmn: int = Field(..., ge=0, le=99)#反映時間間隔 (0〜99)分
-    dumn: int = Field(..., ge=0, le=99)#作用時間 (0~99)分 リレーがMAKEしている時間(分)
-    rly_l: bytes = Field(..., max_length=1) #0x2d  RLY1〜4までのリレーのどれをMAKEするか
-    rly_h: bytes = Field(..., max_length=1) #0x2e  RLY5〜8までのリレーのどれをMAKEするか (後述)
+    __tablename__ = 'blockb_item'
+    id = Column(Integer, primary_key=True) 
+    block_a_id = Column(Integer, ForeignKey('block_a.uecsid')) # BlockAのIDを参照,ブロックAとブロックBのリレーション
+    valid = Column(SmallInteger)  
+    room = Column(SmallInteger)   
+    region = Column(LargeBinary)
+    order = Column(Integer) # 0以上の整数,unsignedの代わり
+    priority = Column(SmallInteger)
+    lv = Column(Integer) #lvは1から10
+    cast = Column(SmallInteger)  
+    sr = Column(String)
+    ccm_type = Column(String(20))
+    unit = Column(String(10))
+    sthr = Column(Integer) #  反映時間帯開始時間 (0〜23)
+    stmn = Column(Integer)# 反映時間帯開始分 (0〜59)
+    edhr = Column(Integer)#反映時間帯終了時間 (0〜23)
+    edmn = Column(Integer)#反映時間帯終了分 (0〜59)
+    inmn = Column(Integer)#反映時間間隔 (0〜99)分
+    dumn = Column(Integer)#作用時間 (0~99)分 リレーがMAKEしている時間(分)
+    rly_l = Column(SmallInteger) #0x2d  RLY1〜4までのリレーのどれをMAKEするか
+    rly_h = Column(SmallInteger)  #0x2e  RLY5〜8までのリレーのどれをMAKEするか (後述)
 
 # dummyの部分に後述する条件部分の記述が反映される。現状検討中
 # 受信CCMは0x1000番地から0x40ステップで配置される。
@@ -165,25 +173,31 @@ class BlockBItem(BaseModel):
 # ただし、現状で用いているのはBREAK/MAKEだけである
 
 
-class BlockB(BaseModel):
-    ccm_items: List[BlockBItem]
-    
-class BlockB(BaseModel):
-    ccm_items: List[BlockBItem]
-
-class BlockA_BlockB(BaseModel):
-    block_a: BlockA
-    block_b_list: List[BlockB]    
-
-class BlockC(BlockB):
-#  送信CCM情報
-
 # Block-Bとメンバーは同じである。
-    pass
+class BlockC(BlockBItem):
+    __tablename__ = 'blockc_item'
+    id = Column(Integer, primary_key=True) 
+    block_a_id = Column(Integer, ForeignKey('block_a.uecsid')) # BlockAのIDを参照,ブロックAとブロックBのリレーション
+    valid = Column(SmallInteger)  
+    room = Column(SmallInteger)   
+    region = Column(LargeBinary)
+    order = Column(Integer) # 0以上の整数,unsignedの代わり
+    priority = Column(SmallInteger)
+    lv = Column(Integer) #lvは1から10
+    cast = Column(SmallInteger)  
+    sr = Column(String)
+    ccm_type = Column(String(20))
+    unit = Column(String(10))
+    sthr = Column(Integer) #  反映時間帯開始時間 (0〜23)
+    stmn = Column(Integer)# 反映時間帯開始分 (0〜59)
+    edhr = Column(Integer)#反映時間帯終了時間 (0〜23)
+    edmn = Column(Integer)#反映時間帯終了分 (0〜59)
+    inmn = Column(Integer)#反映時間間隔 (0〜99)分
+    dumn = Column(Integer)#作用時間 (0~99)分 リレーがMAKEしている時間(分)
+    rly_l = Column(SmallInteger) #0x2d  RLY1〜4までのリレーのどれをMAKEするか
+    rly_h = Column(SmallInteger)  #0x2e  RLY5〜8までのリレーのどれをMAKEするか (後述)
 
-class BlockA_BlockC(BaseModel):
-    block_a: BlockA
-    block_c_list: List[BlockC]    
+  
 
 # * sr は、S固定
 # * rly_l,rly_hは、無視
@@ -218,20 +232,18 @@ class BlockA_BlockC(BaseModel):
 
 
 class BlockDItem(BaseModel):
-    valid: bytes = Field(..., max_length=1)
-    room: bytes = Field(..., max_length=1)
-    region: bytes = Field(..., max_length=1)
+    __tablename__ = 'blockd_item'
+    valid = Column(SmallInteger)
+    room = Column(SmallInteger)
+    region = Column(SmallInteger)
     order: conint(ge=0)  # 0以上の整数,unsignedの代わり
-    priority: bytes = Field(..., max_length=1)
-    ccm_type: str = Field(..., min_length=1, max_length=20)
-    cmpope: bytes = Field(..., max_length=2)
+    priority = Column(SmallInteger)
+    ccm_type=Column(String(20))
+    cmpope = Column(LargeBinary)
     fval: float
+    block_a_id = Column(Integer, ForeignKey('block_a.uecsid')) # BlockAのIDを参照,ブロックAとブロックDのリレーション
 
-class BlockD(BaseModel):
-    compare_items: List[BlockDItem]
-    
 
-class BlockA_BlockD(BaseModel):
-    block_a: BlockA
-    block_b_list: List[BlockD]    
+
+
     
