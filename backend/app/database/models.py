@@ -4,52 +4,6 @@ from typing import List
 from app.database.settings import Base
 from sqlalchemy.orm import relationship
 
-
-# class User(Base):
-#     __tablename__ = 'users'
-#     id = Column(Integer, primary_key=True)
-#     mail = Column(String)
-#     password = Column(String)
-
-
-# class Uecs(Base):    
-#     __tablename__ = 'uecs'
-#     id = Column(Integer, primary_key=True)
-#     node_name = Column(String)
-#     model_number=Column(String)
-#     vender_name=Column(String)
-#     uecs_id=Column(String)
-#     mac_address=Column(String)
-#     parameters = relationship("Parameter", back_populates="uecs")  # 1対多リレーションシップの設定
-    
-
-# class User_Uecs(Base):
-#     __tablename__ = 'user_uecs'
-#     id = Column(Integer, primary_key=True) 
-#     user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
-#     uecs_id = Column(Integer, ForeignKey('uecs.id'), primary_key=True)
-
-# class Parameter(Base):
-#     __tablename__ = 'parameters'
-#     id = Column(Integer, primary_key=True)
-#     name = Column(String)
-#     device_id=Column(Integer, ForeignKey('uecs.id'))
-#     type=Column(String)
-#     room=Column(Integer)
-#     region=Column(char)
-#     order=Column(Integer)
-#     priority=Column(Integer)
-#     data=Column(Integer)
-#     unit=Column(Integer)
-#     start = Column(Time)  # 時間型
-#     end = Column(Time)    
-#     duration = Column(Interval)  # 期間や間隔を表す
-#     interval = Column(Interval)  
-#     ipaddress=Column(String)
-#     uecs = relationship("Uecs", back_populates="parameters") 
-  
-
-
 # EEPROMの割付
 # EEPROMは大きく4ブロックに分かれる。
 
@@ -75,13 +29,16 @@ class BlockA(BaseModel):
     fixed_dns = Column(LargeBinary)
     vender_name= Column(String(16)) # ベンダー名 (ASCIZ文字列)
     node_name= Column(String(16)) #　ノード名 (ASCIZ文字列)
-     # BlockBItemとのリレーションシップ
-    BlockB_items = relationship("BlockBItem", back_populates="block_a")
-     # BlockCItemとのリレーションシップ
-    BlockC_items = relationship("BlockCItem", back_populates="block_a")
-     # BlockDItemとのリレーションシップ
-    BlockD_items = relationship("BlockDItem", back_populates="block_a")
-    # アドレス(番地)即値
+     # BlockBとのリレーションシップ
+    BlockB_BlockA= relationship("BlockB", back_populates="block_a")
+     # BlockCとのリレーションシップ
+    BlockC_BlockA= relationship("BlockC", back_populates="block_a")
+     # BlockDとのリレーションシップ
+    BlockD_BlockA= relationship("BlockD", back_populates="block_a")
+
+
+
+# アドレス(番地)即値
 
 #  stM304 Address
 #define LC_UECS_ID        0x0000
@@ -98,8 +55,8 @@ class BlockA(BaseModel):
 
 #  受信CCM情報
 
-class BlockBItem(BaseModel):
-    __tablename__ = 'blockb_item'
+class BlockB(BaseModel):
+    __tablename__ = 'block_b'
     id = Column(Integer, primary_key=True) 
     block_a_id = Column(Integer, ForeignKey('block_a.uecsid')) # BlockAのIDを参照,ブロックAとブロックBのリレーション
     valid = Column(SmallInteger)  
@@ -174,8 +131,8 @@ class BlockBItem(BaseModel):
 
 
 # Block-Bとメンバーは同じである。
-class BlockC(BlockBItem):
-    __tablename__ = 'blockc_item'
+class BlockC(BlockB):
+    __tablename__ = 'block_c'
     id = Column(Integer, primary_key=True) 
     block_a_id = Column(Integer, ForeignKey('block_a.uecsid')) # BlockAのIDを参照,ブロックAとブロックBのリレーション
     valid = Column(SmallInteger)  
@@ -231,17 +188,17 @@ class BlockC(BlockBItem):
 #define R_OR     7  // |  Logical OR
 
 
-class BlockDItem(BaseModel):
-    __tablename__ = 'blockd_item'
+class BlockD(BaseModel):
+    __tablename__ = 'block_d'
+    block_a_id = Column(Integer, ForeignKey('block_a.uecsid')) # BlockAのIDを参照,ブロックAとブロックDのリレーション
     valid = Column(SmallInteger)
     room = Column(SmallInteger)
     region = Column(SmallInteger)
-    order: conint(ge=0)  # 0以上の整数,unsignedの代わり
+    order= Column(Integer)  # 0以上の整数,unsignedの代わり
     priority = Column(SmallInteger)
     ccm_type=Column(String(20))
     cmpope = Column(LargeBinary)
     fval: float
-    block_a_id = Column(Integer, ForeignKey('block_a.uecsid')) # BlockAのIDを参照,ブロックAとブロックDのリレーション
 
 
 
