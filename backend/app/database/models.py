@@ -1,5 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, Interval, String, Time,LargeBinary,SmallInteger
-from pydantic import BaseModel, conint, Field,constr
+from sqlalchemy import Column, ForeignKey, Integer,String,LargeBinary,SmallInteger
 from typing import List
 from app.database.settings import Base
 from sqlalchemy.orm import relationship
@@ -18,7 +17,7 @@ from sqlalchemy.orm import relationship
 
 #   個体識別情報
 
-class BlockA(BaseModel):
+class BlockA(Base):
     _tablename__ = 'block_a'
     uecsid = Column(Integer, primary_key=True) 
     macaddr = Column(LargeBinary)
@@ -55,10 +54,11 @@ class BlockA(BaseModel):
 
 #  受信CCM情報
 
-class BlockB(BaseModel):
+class BlockB(Base):
     __tablename__ = 'block_b'
     id = Column(Integer, primary_key=True) 
     block_a_id = Column(Integer, ForeignKey('block_a.uecsid')) # BlockAのIDを参照,ブロックAとブロックBのリレーション
+    block_a = relationship("BlockA", back_populates="BlockB_BlockA")
     valid = Column(SmallInteger)  
     room = Column(SmallInteger)   
     region = Column(LargeBinary)
@@ -135,6 +135,7 @@ class BlockC(BlockB):
     __tablename__ = 'block_c'
     id = Column(Integer, primary_key=True) 
     block_a_id = Column(Integer, ForeignKey('block_a.uecsid')) # BlockAのIDを参照,ブロックAとブロックBのリレーション
+    block_a = relationship("BlockA", back_populates="BlockC_BlockA")
     valid = Column(SmallInteger)  
     room = Column(SmallInteger)   
     region = Column(LargeBinary)
@@ -188,9 +189,10 @@ class BlockC(BlockB):
 #define R_OR     7  // |  Logical OR
 
 
-class BlockD(BaseModel):
+class BlockD(Base):
     __tablename__ = 'block_d'
     block_a_id = Column(Integer, ForeignKey('block_a.uecsid')) # BlockAのIDを参照,ブロックAとブロックDのリレーション
+    block_a = relationship("BlockA", back_populates="BlockB_BlockA")
     valid = Column(SmallInteger)
     room = Column(SmallInteger)
     region = Column(SmallInteger)
