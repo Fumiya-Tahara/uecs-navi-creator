@@ -4,7 +4,6 @@ from sqlalchemy.orm import sessionmaker
 import os
 
 # .env ファイルを読み込む
-# load_dotenv()
 
 # 環境変数からデータベース接続情報を取得
 DATABASE_USER = os.getenv("MYSQL_USER")

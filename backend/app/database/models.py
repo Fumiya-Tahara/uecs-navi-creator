@@ -93,6 +93,7 @@ class BlockA(BaseModel):
 #  受信CCM情報
 
 class BlockBItem(BaseModel):
+    block_a_id: int  # BlockAのIDを参照,ブロックAとブロックBのリレーション
     valid: bytes = Field(..., max_length=1)
     room: bytes = Field(..., max_length=1)
     region: bytes = Field(..., max_length=1)
@@ -112,13 +113,12 @@ class BlockBItem(BaseModel):
     rly_l: bytes = Field(..., max_length=1) #0x2d  RLY1〜4までのリレーのどれをMAKEするか
     rly_h: bytes = Field(..., max_length=1) #0x2e  RLY5〜8までのリレーのどれをMAKEするか (後述)
 
-
 # dummyの部分に後述する条件部分の記述が反映される。現状検討中
 # 受信CCMは0x1000番地から0x40ステップで配置される。
 # 受信CCMは30レコード存在する。
 # 使う分だけ、valid=0x01とする。
 
-#  アドレスとオフセット
+#  アドレスとオフセット(担当外)
 #define LC_SCH_START 0x1000
 #define   LC_VALID        0x00 // Valid Flag (0x01:valid, 0xff:invalid)
 #define   LC_ROOM         0x01
@@ -167,19 +167,30 @@ class BlockBItem(BaseModel):
 
 class BlockB(BaseModel):
     ccm_items: List[BlockBItem]
+    
+class BlockB(BaseModel):
+    ccm_items: List[BlockBItem]
+
+class BlockA_BlockB(BaseModel):
+    block_a: BlockA
+    block_b_list: List[BlockB]    
 
 class BlockC(BlockB):
 #  送信CCM情報
 
 # Block-Bとメンバーは同じである。
+    pass
+
+class BlockA_BlockC(BaseModel):
+    block_a: BlockA
+    block_c_list: List[BlockC]    
+
 # * sr は、S固定
 # * rly_l,rly_hは、無視
 
 # 格納EEPROMアドレスは、
 # #define LC_SEND_START 0x3000   // CCM for data sending
 # 後のオフセットは受信CCMと同じ
-
-    pass
 
 # 比較演算レコード
 
@@ -218,3 +229,9 @@ class BlockDItem(BaseModel):
 
 class BlockD(BaseModel):
     compare_items: List[BlockDItem]
+    
+
+class BlockA_BlockD(BaseModel):
+    block_a: BlockA
+    block_b_list: List[BlockD]    
+    
