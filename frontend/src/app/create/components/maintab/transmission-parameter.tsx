@@ -5,7 +5,7 @@ interface TransmissionParamProps {
   unit: string;
 }
 
-export default function TransmissionParam(props: TransmissionParamProps) {
+export function TransmissionParam(props: TransmissionParamProps) {
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>
       <Box>{props.param}</Box>

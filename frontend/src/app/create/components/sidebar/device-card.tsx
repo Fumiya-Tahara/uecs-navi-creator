@@ -17,6 +17,7 @@ export function DeviceCard(props: DeviceCardProps) {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          cursor: "pointer",
         }}
       >
         <div>{props.deviceName}</div>

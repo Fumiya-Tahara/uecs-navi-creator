@@ -1,23 +1,31 @@
 "use client";
 import { getDeviceList, getSensorList } from "../../../stub/create-func";
 import { Box } from "@mui/material";
-import Sidebar from "./components/sidebar";
-import MainTabs from "./components/maintabs";
+import Sidebar from "./components/sidebar/sidebar";
+import MainTabs from "./components/maintab/maintabs";
 import { useState } from "react";
+import { Device, Sensor } from "./interfaces/interfaces";
+
+export interface SelectedSensor {
+  value: number;
+  sensor: number[];
+}
 
 function Create() {
-  const [selectedDevice, setSelectedDevice] = useState<number[]>([]);
-  const deviceList: string[] = getDeviceList();
-  const sensorList: string[] = getSensorList();
-  console.log(selectedDevice);
+  const [selectedDeviceIndex, setSelectedDeviceIndex] = useState<number[]>([]);
+  const [selectedSensorIndex, setSelectedSensorIndex] = useState<
+    SelectedSensor[]
+  >([]);
+  const deviceList: Device[] = getDeviceList();
+  const sensorList: Sensor[] = getSensorList();
 
   return (
-    <div style={{ height: "100%", width: "100%", display: "flex" }}>
+    <Box sx={{ height: "100%", width: "100%", display: "flex" }}>
       <Sidebar
         deviceList={deviceList}
         sensorList={sensorList}
-        selectedDevice={selectedDevice}
-        setSelectedDevice={setSelectedDevice}
+        selectedDeviceIndex={selectedDeviceIndex}
+        setSelectedDeviceIndex={setSelectedDeviceIndex}
       />
       <Box
         sx={{
@@ -30,11 +38,11 @@ function Create() {
         <MainTabs
           deviceList={deviceList}
           sensorList={sensorList}
-          selectedDevice={selectedDevice}
-          setSelectedDevice={setSelectedDevice}
+          selectedDeviceIndex={selectedDeviceIndex}
+          setSelectedDeviceIndex={setSelectedDeviceIndex}
         />
       </Box>
-    </div>
+    </Box>
   );
 }
 

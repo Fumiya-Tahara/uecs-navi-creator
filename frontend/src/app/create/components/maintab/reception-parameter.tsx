@@ -17,7 +17,7 @@ const FlexWrapper = styled("div")({
   alignItems: "center",
 });
 
-export default function ReceptionParam(props: ReceptionParamProps) {
+export function ReceptionParam(props: ReceptionParamProps) {
   const { name, unit } = props;
 
   return (

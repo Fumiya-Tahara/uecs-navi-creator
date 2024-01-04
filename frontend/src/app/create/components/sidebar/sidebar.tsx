@@ -7,6 +7,8 @@ import { grey } from "@mui/material/colors";
 import { useState } from "react";
 import { tabIconTheme } from "@/app/themes/theme";
 import { ThemeProvider } from "@mui/material/styles";
+import { Device, Sensor } from "../../interfaces/interfaces";
+
 interface SidebarTabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -14,8 +16,8 @@ interface SidebarTabPanelProps {
 }
 
 interface SidebarProps {
-  deviceList: string[];
-  sensorList: string[];
+  deviceList: Device[];
+  sensorList: Sensor[];
   selectedDeviceIndex: number[];
   setSelectedDeviceIndex: React.Dispatch<React.SetStateAction<number[]>>;
 }
@@ -74,13 +76,13 @@ export default function Sidebar(props: SidebarProps) {
               alignItems: "center",
             }}
           >
-            {deviceList.map((deviceName, index) => (
+            {deviceList.map((device, index) => (
               <ListItem
                 key={index}
                 sx={{ width: "80%" }}
                 onClick={(event) => handleListItemClick(event, index)}
               >
-                <DeviceCard deviceName={deviceName} />
+                <DeviceCard deviceName={device.name} />
               </ListItem>
             ))}
           </List>
@@ -94,9 +96,9 @@ export default function Sidebar(props: SidebarProps) {
               alignItems: "center",
             }}
           >
-            {sensorList.map((sensorName) => (
-              <ListItem key={sensorName} sx={{ width: "80%" }}>
-                <DeviceCard deviceName={sensorName} />
+            {sensorList.map((sensorName, index) => (
+              <ListItem key={index} sx={{ width: "80%" }}>
+                <DeviceCard deviceName={sensorName.name} />
               </ListItem>
             ))}
           </List>
