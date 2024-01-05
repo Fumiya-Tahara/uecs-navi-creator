@@ -11,19 +11,9 @@ import {
 import { ThemeProvider } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
 import CloseIcon from "@mui/icons-material/Close";
-import { useState } from "react";
 import { tabIconTheme } from "@/app/themes/theme";
-import { TransmissionParam } from "./transmission-parameter";
-import { ReceptionParam } from "./reception-parameter";
-import { styled } from "@mui/material";
-import { Device } from "../../interfaces/interfaces";
-
-const CustomButton = styled(Button)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.main,
-  "&:hover": {
-    backgroundColor: theme.palette.primary.dark,
-  },
-}));
+import { Device, Sensor } from "../../interfaces/interfaces";
+import { InputParamsTabPanelContent } from "./input-params-tab-panel-content";
 
 interface SelectedDevicesTabPanelProps {
   children?: React.ReactNode;
@@ -38,15 +28,11 @@ interface InputParamsTabPanelProps {
 }
 
 interface MainTabProps {
-  deviceList: Device[];
-  sensorList: ParamListItemProps[];
-  selectedDeviceIndex: number[];
-  setSelectedDeviceIndex: React.Dispatch<React.SetStateAction<number[]>>;
-}
-
-interface ParamListItemProps {
-  name: string;
-  unit: string;
+  selectedDevice: Device[];
+  setSelectedDevice: React.Dispatch<React.SetStateAction<Device[]>>;
+  selectedSensor: Map<string, Sensor[]>;
+  value: number;
+  setValue: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const SelectedDevicesTabPanel = (props: SelectedDevicesTabPanelProps) => {
@@ -60,34 +46,18 @@ const InputParamsTabPanel = (props: InputParamsTabPanelProps) => {
 };
 
 export default function MainTabs(props: MainTabProps) {
-  const {
-    deviceList,
-    sensorList,
-    selectedDeviceIndex,
-    setSelectedDeviceIndex,
-  } = props;
-  const [value, setValue] = useState(0);
-  let devicesInPanel: string[] = [];
-  let paramsInPanel: ParamListItemProps[] = [
-    { name: "気温", unit: "度" },
-    { name: "湿度", unit: "%" },
-  ];
-
-  if (selectedDeviceIndex != undefined) {
-    for (let i = 0; i < selectedDeviceIndex.length; i++) {
-      devicesInPanel.push(deviceList[selectedDeviceIndex[i]].name);
-    }
-  }
+  const { selectedDevice, setSelectedDevice, selectedSensor, value, setValue } =
+    props;
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
   const handleDeleteDevice = (deviceName: string) => {
-    const newSelectedDeviceIndex: number[] = selectedDeviceIndex.filter(
-      (selectedDevice) => deviceList[selectedDevice].name != deviceName
+    const newSelectedDevice: Device[] = selectedDevice.filter(
+      (selectedDevice) => selectedDevice.name != deviceName
     );
-    setSelectedDeviceIndex(newSelectedDeviceIndex);
+    setSelectedDevice(newSelectedDevice);
   };
 
   return (
@@ -111,18 +81,20 @@ export default function MainTabs(props: MainTabProps) {
             sx={{ backgroundColor: grey[900] }}
           >
             <Tab value={0} label="選択デバイス" />
-            {devicesInPanel.map((device, index) => {
-              return <Tab key={index} value={index + 1} label={device} />;
+            {selectedDevice.map((deviceData, index) => {
+              return (
+                <Tab key={index} value={index + 1} label={deviceData.name} />
+              );
             })}
           </Tabs>
         </ThemeProvider>
         <div>
           <SelectedDevicesTabPanel value={value} index={0}>
             <List>
-              {devicesInPanel.map((deviceName, index) => {
+              {selectedDevice.map((deviceData, index) => {
                 return (
                   <ListItem key={index}>
-                    <div style={{ width: "70%" }}>{deviceName}</div>
+                    <div style={{ width: "70%" }}>{deviceData.name}</div>
                     <Button
                       variant="outlined"
                       size="small"
@@ -138,7 +110,10 @@ export default function MainTabs(props: MainTabProps) {
                         justifyContent: "center",
                       }}
                     >
-                      <IconButton aria-label="close">
+                      <IconButton
+                        aria-label="close"
+                        onClick={() => handleDeleteDevice(deviceData.name)}
+                      >
                         <CloseIcon />
                       </IconButton>
                     </div>
@@ -147,27 +122,13 @@ export default function MainTabs(props: MainTabProps) {
               })}
             </List>
           </SelectedDevicesTabPanel>
-          {devicesInPanel.map((device, index) => {
+          {selectedDevice.map((deviceData, index) => {
             return (
               <InputParamsTabPanel key={index} value={value} index={index + 1}>
-                <Box sx={{ padding: "8px 16px" }}>
-                  <Box sx={{ fontWeight: "bold" }}>送信パラメータ</Box>
-                  <TransmissionParam param="気温" unit="度"></TransmissionParam>
-                </Box>
-                <Box sx={{ paddingY: "8px", marginTop: "30px" }}>
-                  <Box sx={{ paddingX: "16px", fontWeight: "bold" }}>
-                    受信パラメータ
-                  </Box>
-                  <List>
-                    {paramsInPanel.map((param, index) => {
-                      return (
-                        <ListItem key={index}>
-                          <ReceptionParam name={param.name} unit={param.unit} />
-                        </ListItem>
-                      );
-                    })}
-                  </List>
-                </Box>
+                <InputParamsTabPanelContent
+                  deviceData={deviceData}
+                  sensorDataList={selectedSensor.get(deviceData.name) || []}
+                />
               </InputParamsTabPanel>
             );
           })}

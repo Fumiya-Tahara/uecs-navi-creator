@@ -18,8 +18,13 @@ interface SidebarTabPanelProps {
 interface SidebarProps {
   deviceList: Device[];
   sensorList: Sensor[];
-  selectedDeviceIndex: number[];
-  setSelectedDeviceIndex: React.Dispatch<React.SetStateAction<number[]>>;
+  selectedDevice: Device[];
+  setSelectedDevice: React.Dispatch<React.SetStateAction<Device[]>>;
+  selectedSensor: Map<string, Sensor[]>;
+  setSelectedSensor: React.Dispatch<
+    React.SetStateAction<Map<string, Sensor[]>>
+  >;
+  maintabValue: number;
 }
 
 const SidebarTabPanel = (props: SidebarTabPanelProps) => {
@@ -32,23 +37,56 @@ export default function Sidebar(props: SidebarProps) {
   const {
     deviceList,
     sensorList,
-    selectedDeviceIndex,
-    setSelectedDeviceIndex,
+    selectedDevice,
+    setSelectedDevice,
+    selectedSensor,
+    setSelectedSensor,
+    maintabValue,
   } = props;
+
   const [value, setValue] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
-  const handleListItemClick = (event: React.SyntheticEvent, index: number) => {
-    if (selectedDeviceIndex.includes(index)) {
+  const handleDeviceClick = (device: Device) => {
+    if (selectedDevice.some((eachDevice) => eachDevice.name === device.name)) {
       return;
     } else {
-      setSelectedDeviceIndex((preSelectedDeviceIndex) => [
-        ...preSelectedDeviceIndex,
-        index,
-      ]);
+      setSelectedDevice((preSelectedDevice) => [...preSelectedDevice, device]);
+    }
+  };
+
+  const handleSensorClick = (sensor: Sensor) => {
+    // The indices of value and selectedDevice are off by 1
+    if (maintabValue == 0) {
+      return;
+    }
+
+    const deviceName: string = selectedDevice[maintabValue - 1].name;
+    if (selectedSensor.has(deviceName)) {
+      if (
+        selectedSensor
+          .get(deviceName)!
+          .some((eachSensor) => eachSensor.name === sensor.name)
+      ) {
+        return;
+      }
+      setSelectedSensor((preSelectedSensor) => {
+        const newSelectedSensor = new Map(preSelectedSensor);
+        newSelectedSensor.set(deviceName, [
+          ...newSelectedSensor.get(deviceName)!,
+          sensor,
+        ]);
+        return newSelectedSensor;
+      });
+    } else {
+      setSelectedSensor((preSelectedSensor) => {
+        const newSelectedSensor = new Map(preSelectedSensor);
+        newSelectedSensor.set(deviceName, [sensor]);
+        return newSelectedSensor;
+      });
     }
   };
 
@@ -62,8 +100,8 @@ export default function Sidebar(props: SidebarProps) {
           indicatorColor="primary"
           onChange={handleChange}
         >
-          <Tab value={0} icon={<DevicesIcon />} label="DEVICES" />
-          <Tab value={1} icon={<SensorsIcon />} label="SENSOR" />
+          <Tab value={0} icon={<DevicesIcon />} label="デバイス" />
+          <Tab value={1} icon={<SensorsIcon />} label="センサー" />
         </Tabs>
       </ThemeProvider>
       <div style={{ backgroundColor: grey[200], height: "90%" }}>
@@ -80,7 +118,7 @@ export default function Sidebar(props: SidebarProps) {
               <ListItem
                 key={index}
                 sx={{ width: "80%" }}
-                onClick={(event) => handleListItemClick(event, index)}
+                onClick={() => handleDeviceClick(device)}
               >
                 <DeviceCard deviceName={device.name} />
               </ListItem>
@@ -96,9 +134,13 @@ export default function Sidebar(props: SidebarProps) {
               alignItems: "center",
             }}
           >
-            {sensorList.map((sensorName, index) => (
-              <ListItem key={index} sx={{ width: "80%" }}>
-                <DeviceCard deviceName={sensorName.name} />
+            {sensorList.map((sensor, index) => (
+              <ListItem
+                key={index}
+                sx={{ width: "80%" }}
+                onClick={() => handleSensorClick(sensor)}
+              >
+                <DeviceCard deviceName={sensor.name} />
               </ListItem>
             ))}
           </List>

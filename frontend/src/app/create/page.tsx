@@ -6,16 +6,12 @@ import MainTabs from "./components/maintab/maintabs";
 import { useState } from "react";
 import { Device, Sensor } from "./interfaces/interfaces";
 
-export interface SelectedSensor {
-  value: number;
-  sensor: number[];
-}
-
 function Create() {
-  const [selectedDeviceIndex, setSelectedDeviceIndex] = useState<number[]>([]);
-  const [selectedSensorIndex, setSelectedSensorIndex] = useState<
-    SelectedSensor[]
-  >([]);
+  const [selectedDevice, setSelectedDevice] = useState<Device[]>([]);
+  const [selectedSensor, setSelectedSensor] = useState<Map<string, Sensor[]>>(
+    new Map<string, Sensor[]>()
+  );
+  const [mailTabValue, setMailTabValue] = useState(0);
   const deviceList: Device[] = getDeviceList();
   const sensorList: Sensor[] = getSensorList();
 
@@ -24,8 +20,11 @@ function Create() {
       <Sidebar
         deviceList={deviceList}
         sensorList={sensorList}
-        selectedDeviceIndex={selectedDeviceIndex}
-        setSelectedDeviceIndex={setSelectedDeviceIndex}
+        selectedDevice={selectedDevice}
+        setSelectedDevice={setSelectedDevice}
+        selectedSensor={selectedSensor}
+        setSelectedSensor={setSelectedSensor}
+        maintabValue={mailTabValue}
       />
       <Box
         sx={{
@@ -36,10 +35,11 @@ function Create() {
         }}
       >
         <MainTabs
-          deviceList={deviceList}
-          sensorList={sensorList}
-          selectedDeviceIndex={selectedDeviceIndex}
-          setSelectedDeviceIndex={setSelectedDeviceIndex}
+          selectedDevice={selectedDevice}
+          setSelectedDevice={setSelectedDevice}
+          selectedSensor={selectedSensor}
+          value={mailTabValue}
+          setValue={setMailTabValue}
         />
       </Box>
     </Box>
