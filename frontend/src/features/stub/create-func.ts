@@ -1,4 +1,4 @@
-import { Sensor, Device } from "../src/app/create/interfaces/interfaces";
+import { Sensor, Device } from "../../app/createA/interfaces/interfaces";
 
 export function getDeviceList() {
   const deviceList: Device[] = [

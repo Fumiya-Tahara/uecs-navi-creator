@@ -1,48 +1,21 @@
 "use client";
-import { getDeviceList, getSensorList } from "../../../stub/create-func";
 import { Box } from "@mui/material";
-import Sidebar from "./components/sidebar/sidebar";
-import MainTabs from "./components/maintab/maintabs";
-import { useState } from "react";
-import { Device, Sensor } from "./interfaces/interfaces";
+import { AddDeviceButton } from "./components/add-device-button";
 
 function Create() {
-  const [selectedDevice, setSelectedDevice] = useState<Device[]>([]);
-  const [selectedSensor, setSelectedSensor] = useState<Map<string, Sensor[]>>(
-    new Map<string, Sensor[]>()
-  );
-  const [mailTabValue, setMailTabValue] = useState(0);
-  const deviceList: Device[] = getDeviceList();
-  const sensorList: Sensor[] = getSensorList();
-
   return (
-    <Box sx={{ height: "100%", width: "100%", display: "flex" }}>
-      <Sidebar
-        deviceList={deviceList}
-        sensorList={sensorList}
-        selectedDevice={selectedDevice}
-        setSelectedDevice={setSelectedDevice}
-        selectedSensor={selectedSensor}
-        setSelectedSensor={setSelectedSensor}
-        maintabValue={mailTabValue}
-      />
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <MainTabs
-          selectedDevice={selectedDevice}
-          setSelectedDevice={setSelectedDevice}
-          selectedSensor={selectedSensor}
-          value={mailTabValue}
-          setValue={setMailTabValue}
-        />
+    <div className="h-screen">
+      <Box sx={{ position: "fixed", bottom: "120px", right: "150px" }}>
+        <AddDeviceButton />
       </Box>
-    </Box>
+      <div className="h-full grid grid-cols-12 gap-4">
+        <div className="h-1/2 col-start-4 col-span-6 flex justify-center items-center">
+          <div className="text-5xl text-gray-300">
+            デバイスを選択してください
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

@@ -22,3 +22,11 @@ export const tabIconTheme = createTheme({
     },
   },
 });
+
+export const wholeTheme = createTheme({
+  palette: {
+    primary: {
+      main: grey[900],
+    },
+  },
+});
