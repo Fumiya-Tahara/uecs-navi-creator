@@ -72,6 +72,7 @@ export function AddDeviceButton(props: AddDeviceButtonProps) {
         ...preSelectedDevice,
         selectboxDevice,
       ]);
+      setOpen(false);
     }
   };
 
