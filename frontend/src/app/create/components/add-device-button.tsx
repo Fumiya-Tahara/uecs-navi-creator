@@ -55,7 +55,6 @@ export function AddDeviceButton(props: AddDeviceButtonProps) {
     setSelectBoxValue(event.target.value as string);
   };
   const handleClick = () => {
-    console.log(selectBoxValue);
     const intDeviceId: number = parseInt(selectBoxValue);
     const selectboxDevice: Device | undefined = deviceList.find(
       (device) => device.id === intDeviceId
@@ -72,6 +71,7 @@ export function AddDeviceButton(props: AddDeviceButtonProps) {
         ...preSelectedDevice,
         selectboxDevice,
       ]);
+      setSelectBoxValue("");
       setOpen(false);
     }
   };
