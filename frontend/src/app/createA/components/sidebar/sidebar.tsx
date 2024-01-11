@@ -5,7 +5,7 @@ import SensorsIcon from "@mui/icons-material/Sensors";
 import { DeviceCard } from "./device-card";
 import { grey } from "@mui/material/colors";
 import { useState } from "react";
-import { tabIconTheme } from "@/app/themes/theme";
+import { tabIconTheme } from "@/features/themes/theme";
 import { ThemeProvider } from "@mui/material/styles";
 import { Device, Sensor } from "../../interfaces/interfaces";
 

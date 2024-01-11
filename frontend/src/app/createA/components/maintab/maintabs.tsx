@@ -11,7 +11,7 @@ import {
 import { ThemeProvider } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
 import CloseIcon from "@mui/icons-material/Close";
-import { tabIconTheme } from "@/app/themes/theme";
+import { tabIconTheme } from "@/features/themes/theme";
 import { Device, Sensor } from "../../interfaces/interfaces";
 import { InputParamsTabPanelContent } from "./input-params-tab-panel-content";
 
