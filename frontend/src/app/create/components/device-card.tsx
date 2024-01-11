@@ -1,6 +1,8 @@
+"use client";
 import { Button, Card, IconButton } from "@mui/material";
 import { Device } from "../interfaces/interfaces";
 import CloseIcon from "@mui/icons-material/Close";
+import Link from "next/link";
 
 interface DeviceCardProps {
   device: Device;
@@ -41,9 +43,11 @@ export function DeviceCard(props: DeviceCardProps) {
             <div>{device.name}</div>
           </div>
           <div className="flex justify-end">
-            <Button variant="outlined" size="small">
-              パラメータ設定
-            </Button>
+            <Link href={`/create/${device.id}`}>
+              <Button variant="outlined" size="small">
+                パラメータ設定
+              </Button>
+            </Link>
           </div>
         </div>
       </Card>

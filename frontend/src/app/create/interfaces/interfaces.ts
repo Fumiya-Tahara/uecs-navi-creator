@@ -17,7 +17,7 @@ export interface ReceptionParams {
   region: number;
   order: number;
   priority: number;
-  lv: string;
+  lv: number;
   cast: number;
   sr: string;
   ccm_type: string;
@@ -30,7 +30,6 @@ export interface ReceptionParams {
   dumn: number;
   rly_l: number;
   rly_h: number;
-  alignment: number; // 仮
 }
 
 export interface TransmissionParams {
@@ -39,7 +38,7 @@ export interface TransmissionParams {
   region: number;
   order: number;
   priority: number;
-  lv: string;
+  lv: number;
   cast: number;
   sr: string;
   ccm_type: string;
@@ -52,5 +51,4 @@ export interface TransmissionParams {
   dumn: number;
   rly_l: number;
   rly_h: number;
-  alignment: number; // 仮
 }

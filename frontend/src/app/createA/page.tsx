@@ -11,7 +11,7 @@ function CreateA() {
   const [selectedSensor, setSelectedSensor] = useState<Map<string, Sensor[]>>(
     new Map<string, Sensor[]>()
   );
-  const [mailTabValue, setMailTabValue] = useState(0);
+  const [mainTabValue, setMainTabValue] = useState(0);
   const deviceList: Device[] = getDeviceList();
   const sensorList: Sensor[] = getSensorList();
 
@@ -24,7 +24,7 @@ function CreateA() {
         setSelectedDevice={setSelectedDevice}
         selectedSensor={selectedSensor}
         setSelectedSensor={setSelectedSensor}
-        maintabValue={mailTabValue}
+        maintabValue={mainTabValue}
       />
       <Box
         sx={{
@@ -38,8 +38,8 @@ function CreateA() {
           selectedDevice={selectedDevice}
           setSelectedDevice={setSelectedDevice}
           selectedSensor={selectedSensor}
-          value={mailTabValue}
-          setValue={setMailTabValue}
+          value={mainTabValue}
+          setValue={setMainTabValue}
         />
       </Box>
     </Box>
