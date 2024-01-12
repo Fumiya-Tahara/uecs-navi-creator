@@ -24,7 +24,7 @@ export function DeviceCard(props: DeviceCardProps) {
       <Card
         sx={{
           padding: "16px",
-          backgroundColor: "#D9D9D9",
+          backgroundColor: "rgb(209 213 219)",
           borderRadius: "12px",
           width: "100%",
           aspectRatio: "2/3",
