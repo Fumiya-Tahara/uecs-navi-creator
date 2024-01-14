@@ -2,20 +2,20 @@ import { Switch, TextField, InputAdornment } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import { Device } from "../../interfaces/interfaces";
+import { Sensor } from "../../interfaces/interfaces";
 import { useState } from "react";
 
-interface TransmissionParamsProps {
-  device: Device;
+interface ReceptionParamsProps {
+  sensor: Sensor;
 }
 
-export default function TransmissionParams(props: TransmissionParamsProps) {
-  const { device } = props;
+export default function ReceptionParams(props: ReceptionParamsProps) {
+  const { sensor } = props;
   const [checked, setChecked] = useState(false);
 
   return (
     <>
-      <h2 className="m-0">{device.name}</h2>
+      <h2 className="m-0">{sensor.name}</h2>
       <div className="pt-6">
         <div>
           <div>
@@ -25,12 +25,12 @@ export default function TransmissionParams(props: TransmissionParamsProps) {
           <div>
             <h5 className="mt-7 mb-4">設定パラメータ</h5>
             <TextField
-              label={device.controllParam}
+              label={sensor.name}
               type="number"
               size="small"
               InputProps={{
                 endAdornment: (
-                  <InputAdornment position="end">{device.unit}</InputAdornment>
+                  <InputAdornment position="end">{sensor.unit}</InputAdornment>
                 ),
               }}
               InputLabelProps={{
