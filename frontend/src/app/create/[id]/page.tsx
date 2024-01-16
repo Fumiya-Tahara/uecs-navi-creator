@@ -91,7 +91,7 @@ export default function Detail() {
             </Tabs>
           </ThemeProvider>
         </div>
-        <Box sx={{ aspectRatio: "2/1" }}>
+        <Box>
           <TabPanel value={value} index={0}>
             <div className="h-full relative p-16">
               <AddSensorButton
