@@ -82,7 +82,7 @@ export default function Detail() {
               indicatorColor="primary"
               onChange={handleTabChange}
             >
-              <Tab value={0} label="選択センサー" />
+              <Tab value={0} label="環境条件" />
               {selectedSensor.map((sensorData, index) => {
                 return (
                   <Tab key={index} value={index + 1} label={sensorData.name} />
@@ -91,7 +91,7 @@ export default function Detail() {
             </Tabs>
           </ThemeProvider>
         </div>
-        <Box>
+        <Box sx={{ height: "80vh" }}>
           <TabPanel value={value} index={0}>
             <div className="h-full relative p-16">
               <AddSensorButton
@@ -102,18 +102,18 @@ export default function Detail() {
               {selectedSensor.length == 0 ? (
                 <div className="mt-16 flex justify-center items-center">
                   <div className="text-4xl text-gray-300">
-                    センサーを選択してください
+                    環境条件を選択してください
                   </div>
                 </div>
               ) : (
                 <>
-                  <h2 className="m-0">選択センサー</h2>
+                  <h2 className="m-0">環境条件</h2>
                   <div className="pt-6">
                     <List>
                       {selectedSensor.map((sensorData, index) => {
                         return (
                           <ListItem key={index}>
-                            <div style={{ width: "80%" }}>
+                            <div style={{ width: "1000%" }}>
                               {sensorData.name}
                             </div>
                             <IconButton
@@ -144,7 +144,6 @@ export default function Detail() {
           })}
         </Box>
       </div>
-      <Button variant="contained">保存する</Button>
     </div>
   );
 }
