@@ -98,13 +98,13 @@ export function AddSensorButton(props: AddSensorButtonProps) {
             <Box sx={{ minWidth: 120 }}>
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">
-                  センサーを選択してください
+                  環境条件を選択してください
                 </InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   value={selectBoxValue}
-                  label="センサーを選択してください"
+                  label="環境条件を選択してください"
                   onChange={handleChange}
                 >
                   {sensorList.map((sensor, index) => (
