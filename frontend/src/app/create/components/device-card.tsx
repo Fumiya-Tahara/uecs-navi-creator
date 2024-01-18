@@ -2,7 +2,6 @@
 import { Button, Card, IconButton } from "@mui/material";
 import { Device } from "../interfaces/interfaces";
 import CloseIcon from "@mui/icons-material/Close";
-import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
 import Link from "next/link";
 import { deviceIconMap } from "./icons_map";
 
@@ -47,7 +46,7 @@ export function DeviceCard(props: DeviceCardProps) {
               <h3 className="m-0">{device.name}</h3>
             </div>
             <div className="mt-6">
-              <h4 className="m-0">{device.controllParam}</h4>
+              <h4 className="m-0">{device.envCondition}</h4>
               <div className="mt-4 flex justify-center items-center">
                 <div className="text-7xl">--</div>
                 <div>{device.unit}</div>
