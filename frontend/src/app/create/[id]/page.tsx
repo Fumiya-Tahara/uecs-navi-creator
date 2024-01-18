@@ -11,13 +11,17 @@ import {
 import { ThemeProvider } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
 import { wholeTheme } from "@/features/themes/theme";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TransmissionParams from "./components/transmission-params";
 import ReceptionParams from "./components/reception-parameter";
 import { Device, Sensor } from "../interfaces/interfaces";
-import { getSensorList } from "@/features/stub/create-func";
+import {
+  getSelectedDeviceList,
+  getEnvConditionList,
+} from "@/features/stub/create-func";
 import { AddSensorButton } from "./components/add-sensor-button";
 import CloseIcon from "@mui/icons-material/Close";
+import { redirect, usePathname } from "next/navigation";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -37,18 +41,28 @@ const TabPanel = (props: TabPanelProps) => {
 export default function Detail() {
   const [value, setValue] = useState(0);
   const [selectedSensor, setSelectedSensor] = useState<Sensor[]>([]);
+  const [device, setDevice] = useState<Device>();
+  const sensorList: Sensor[] = getEnvConditionList();
 
-  const sensorList: Sensor[] = getSensorList();
+  // deviceIdを元にuseEffectでデバイス情報を取得する
+  const pathName = usePathname();
+  const splitPathName = pathName.split("/");
+  const deviceId = splitPathName[splitPathName.length - 1];
+
+  useEffect(() => {
+    const selectedDevice: Device[] = getSelectedDeviceList();
+    const idMatchedDevice: Device | undefined = selectedDevice.find(
+      (device) => device.id == Number(deviceId)
+    );
+    if (!idMatchedDevice) {
+      // リダイレクト
+      redirect("/create");
+    }
+    setDevice(idMatchedDevice);
+  }, [deviceId]);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
-  };
-
-  const device: Device = {
-    id: 1,
-    name: "温度調節器",
-    controllParam: "気温",
-    unit: "度",
   };
 
   const handleDeleteDevice = (deviceName: string) => {
@@ -57,6 +71,10 @@ export default function Detail() {
     );
     setSelectedSensor(newSelectedSensor);
   };
+
+  if (!device) {
+    return;
+  }
 
   return (
     <div className="min-h-screen py-16 px-20">
