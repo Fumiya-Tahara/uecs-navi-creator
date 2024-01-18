@@ -14,6 +14,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { Device } from "../../interfaces/interfaces";
 import { useState } from "react";
+import { deviceIconMap } from "../../components/icons_map";
 
 interface TransmissionParamsProps {
   device: Device;
@@ -30,7 +31,10 @@ export default function TransmissionParams(props: TransmissionParamsProps) {
 
   return (
     <>
-      <h2 className="m-0">{device.name}</h2>
+      <div className="flex items-center">
+        {deviceIconMap[device.name]}
+        <h2 className="m-0">{device.name}</h2>
+      </div>
       <div className="pt-6">
         <div>
           <div>
@@ -40,7 +44,7 @@ export default function TransmissionParams(props: TransmissionParamsProps) {
           <div>
             <h5 className="mt-7 mb-4">設定パラメータ</h5>
             <TextField
-              label={device.controllParam}
+              label={device.envCondition}
               type="number"
               size="small"
               InputProps={{
