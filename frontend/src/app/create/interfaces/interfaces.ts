@@ -1,8 +1,9 @@
 export interface Device {
   id: number;
   name: string;
-  controllParam: string;
+  envCondition: string;
   unit: string;
+  ccm_type: string;
 }
 
 export interface Sensor {
