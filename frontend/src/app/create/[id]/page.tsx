@@ -131,7 +131,7 @@ export default function Detail() {
                       {selectedSensor.map((sensorData, index) => {
                         return (
                           <ListItem key={index}>
-                            <div style={{ width: "1000%" }}>
+                            <div style={{ width: "100%" }}>
                               {sensorData.name}
                             </div>
                             <IconButton
