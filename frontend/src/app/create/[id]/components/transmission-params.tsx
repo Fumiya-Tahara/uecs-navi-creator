@@ -58,9 +58,14 @@ export default function TransmissionParams(props: TransmissionParamsProps) {
               sx={{ marginRight: "8px" }}
             />
             <TextField
-              label="小数点位置"
+              label="小数点以下の桁数"
               type="number"
               size="small"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">桁</InputAdornment>
+                ),
+              }}
               InputLabelProps={{
                 shrink: true,
               }}

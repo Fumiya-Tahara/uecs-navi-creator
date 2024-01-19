@@ -54,9 +54,14 @@ export default function ReceptionParams(props: ReceptionParamsProps) {
               sx={{ marginRight: "8px" }}
             />
             <TextField
-              label="小数点位置"
+              label="小数点以下の桁数"
               type="number"
               size="small"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">桁</InputAdornment>
+                ),
+              }}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -95,6 +100,36 @@ export default function ReceptionParams(props: ReceptionParamsProps) {
                 }}
               />
             </LocalizationProvider>
+          </div>
+          <div>
+            <h5 className="mt-10 mb-4">反映時間間隔 / 作用時間</h5>
+            <TextField
+              label="反映時間"
+              type="number"
+              size="small"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">分</InputAdornment>
+                ),
+              }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              sx={{ marginRight: "8px" }}
+            />
+            <TextField
+              label="反映時間間隔"
+              type="number"
+              size="small"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">分</InputAdornment>
+                ),
+              }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
           </div>
 
           <div>
