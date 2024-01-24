@@ -16,7 +16,7 @@ import {
 import { wholeTheme } from "@/features/themes/theme";
 import { styled } from "@mui/system";
 import { useState } from "react";
-import { Sensor } from "../../interfaces/interfaces";
+import { Sensor } from "../../../interfaces/interfaces";
 
 interface AddSensorButtonProps {
   sensorList: Sensor[];
