@@ -25,10 +25,10 @@ interface ReceptionParamsProps {
 export default function ReceptionParams(props: ReceptionParamsProps) {
   const { device } = props;
   const [checked, setChecked] = useState(false);
-  const [level, setLevel] = useState("");
+  const [cmpope, setCmpope] = useState("");
 
   const handleChange = (event: SelectChangeEvent) => {
-    setLevel(event.target.value as string);
+    setCmpope(event.target.value as string);
   };
 
   return (
@@ -45,33 +45,34 @@ export default function ReceptionParams(props: ReceptionParamsProps) {
           </div>
           <div>
             <h5 className="mt-7 mb-4">設定パラメータ</h5>
-            <TextField
-              label={device.envCondition}
-              type="number"
-              size="small"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">{device.unit}</InputAdornment>
-                ),
-              }}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              sx={{ marginRight: "8px" }}
-            />
-            <TextField
-              label="小数点以下の桁数"
-              type="number"
-              size="small"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">桁</InputAdornment>
-                ),
-              }}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
+            <div className="flex items-center">
+              <div>気温</div>
+              <Select
+                value={cmpope}
+                size="small"
+                onChange={handleChange}
+                sx={{ marginX: "8px" }}
+              >
+                <MenuItem value={1}>{"="}</MenuItem>
+                <MenuItem value={2}>{">"}</MenuItem>
+                <MenuItem value={3}>{"<"}</MenuItem>
+                <MenuItem value={4}>{"≥"}</MenuItem>
+                <MenuItem value={5}>{"≤"}</MenuItem>
+              </Select>
+              <TextField
+                type="number"
+                size="small"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">{"℃"}</InputAdornment>
+                  ),
+                }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                sx={{ marginRight: "8px" }}
+              />
+            </div>
           </div>
           <div>
             <h5 className="mt-10 mb-4">反映時間</h5>
