@@ -2,25 +2,28 @@ import {
   Switch,
   TextField,
   InputAdornment,
-  Box,
+  Select,
+  SelectChangeEvent,
   FormControl,
   InputLabel,
-  Select,
   MenuItem,
-  SelectChangeEvent,
+  Box,
+  FormGroup,
+  FormControlLabel,
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import { Sensor } from "../../../interfaces/interfaces";
+import { Device } from "../../../interfaces/interfaces";
 import { useState } from "react";
+import { envConditionIconMap } from "../../../components/icons_map";
 
-interface TransmissionParamsProps {
-  sensor: Sensor;
+interface ReceptionParamsProps {
+  device: Device;
 }
 
-export default function TransmissionParams(props: TransmissionParamsProps) {
-  const { sensor } = props;
+export default function ReceptionParams(props: ReceptionParamsProps) {
+  const { device } = props;
   const [checked, setChecked] = useState(false);
   const [level, setLevel] = useState("");
 
@@ -30,7 +33,10 @@ export default function TransmissionParams(props: TransmissionParamsProps) {
 
   return (
     <>
-      <h2 className="m-0">{sensor.name}</h2>
+      <div className="flex items-center">
+        {envConditionIconMap["気温"]}
+        <h2 className="m-0">気温</h2>
+      </div>
       <div className="pt-6">
         <div>
           <div>
@@ -40,12 +46,12 @@ export default function TransmissionParams(props: TransmissionParamsProps) {
           <div>
             <h5 className="mt-7 mb-4">設定パラメータ</h5>
             <TextField
-              label={sensor.name}
+              label={device.envCondition}
               type="number"
               size="small"
               InputProps={{
                 endAdornment: (
-                  <InputAdornment position="end">{sensor.unit}</InputAdornment>
+                  <InputAdornment position="end">{device.unit}</InputAdornment>
                 ),
               }}
               InputLabelProps={{
@@ -169,31 +175,53 @@ export default function TransmissionParams(props: TransmissionParamsProps) {
               />
             </div>
           </div>
+
           <div>
-            <h5 className="mt-10 mb-4">データ送信のタイミング</h5>
-            <Box sx={{ width: "30%" }}>
-              <FormControl fullWidth size="small">
-                <InputLabel id="demo-simple-select-label">レベル</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={level}
-                  label="レベル"
-                  onChange={handleChange}
-                >
-                  <MenuItem value={1}>A-1S-0</MenuItem>
-                  <MenuItem value={2}>A-1S-1</MenuItem>
-                  <MenuItem value={3}>A-10S-0</MenuItem>
-                  <MenuItem value={4}>A-10S-1</MenuItem>
-                  <MenuItem value={5}>A-1M-0</MenuItem>
-                  <MenuItem value={6}>A-1M-1</MenuItem>
-                  <MenuItem value={7}>B-0</MenuItem>
-                  <MenuItem value={8}>B-1</MenuItem>
-                  <MenuItem value={9}>S-1S-0</MenuItem>
-                  <MenuItem value={10}>S-1M-0</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
+            <h5 className="mt-10 mb-4">リレーの選択</h5>
+            <div>
+              <FormGroup aria-label="position" row>
+                <FormControlLabel
+                  control={<Switch sx={{ transform: "rotateZ(-90deg)" }} />}
+                  label={<span className="text-xs">リレー1</span>}
+                  labelPlacement="bottom"
+                />
+                <FormControlLabel
+                  control={<Switch sx={{ transform: "rotateZ(-90deg)" }} />}
+                  label={<span className="text-xs">リレー2</span>}
+                  labelPlacement="bottom"
+                />
+                <FormControlLabel
+                  control={<Switch sx={{ transform: "rotateZ(-90deg)" }} />}
+                  label={<span className="text-xs">リレー3</span>}
+                  labelPlacement="bottom"
+                />
+                <FormControlLabel
+                  control={<Switch sx={{ transform: "rotateZ(-90deg)" }} />}
+                  label={<span className="text-xs">リレー4</span>}
+                  labelPlacement="bottom"
+                />
+                <FormControlLabel
+                  control={<Switch sx={{ transform: "rotateZ(-90deg)" }} />}
+                  label={<span className="text-xs">リレー5</span>}
+                  labelPlacement="bottom"
+                />
+                <FormControlLabel
+                  control={<Switch sx={{ transform: "rotateZ(-90deg)" }} />}
+                  label={<span className="text-xs">リレー6</span>}
+                  labelPlacement="bottom"
+                />
+                <FormControlLabel
+                  control={<Switch sx={{ transform: "rotateZ(-90deg)" }} />}
+                  label={<span className="text-xs">リレー7</span>}
+                  labelPlacement="bottom"
+                />
+                <FormControlLabel
+                  control={<Switch sx={{ transform: "rotateZ(-90deg)" }} />}
+                  label={<span className="text-xs">リレー8</span>}
+                  labelPlacement="bottom"
+                />
+              </FormGroup>
+            </div>
           </div>
         </div>
       </div>

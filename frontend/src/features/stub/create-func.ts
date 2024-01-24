@@ -1,5 +1,5 @@
 import {
-  Sensor,
+  EnvCondition,
   Device,
   ReceptionParams,
 } from "../../app/create/interfaces/interfaces";
@@ -39,11 +39,11 @@ export function getDeviceList() {
 }
 
 export function getEnvConditionList() {
-  const sensorList: Sensor[] = [
-    { id: 1, name: "気温", unit: "度" },
+  const envConditionList: EnvCondition[] = [
+    { id: 1, name: "気温", unit: "℃" },
     { id: 2, name: "湿度", unit: "%" },
   ];
-  return sensorList;
+  return envConditionList;
 }
 
 export function getSelectedDeviceList() {
@@ -69,6 +69,7 @@ export function getSelectedDeviceList() {
 export function getReceptionParams(): ReceptionParams[] {
   const receptionParams: ReceptionParams[] = [
     {
+      id: 1,
       valid: true,
       room: 1,
       region: 1,
@@ -79,7 +80,7 @@ export function getReceptionParams(): ReceptionParams[] {
       sr: "s",
       ccm_type: "InAirTemp",
       unit: "℃",
-      srhr: 10,
+      sthr: 10,
       stmn: 0,
       edhr: 12,
       edmn: 0,
@@ -89,6 +90,7 @@ export function getReceptionParams(): ReceptionParams[] {
       rly_h: 1,
     },
     {
+      id: 2,
       valid: true,
       room: 1,
       region: 1,
@@ -99,7 +101,7 @@ export function getReceptionParams(): ReceptionParams[] {
       sr: "s",
       ccm_type: "InAirTemp",
       unit: "℃",
-      srhr: 12,
+      sthr: 12,
       stmn: 0,
       edhr: 14,
       edmn: 0,
