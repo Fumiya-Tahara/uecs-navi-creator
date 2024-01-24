@@ -2,26 +2,25 @@ import {
   Switch,
   TextField,
   InputAdornment,
-  Select,
-  SelectChangeEvent,
+  Box,
   FormControl,
   InputLabel,
+  Select,
   MenuItem,
-  Box,
+  SelectChangeEvent,
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import { Device } from "../../interfaces/interfaces";
+import { Sensor } from "../../../interfaces/interfaces";
 import { useState } from "react";
-import { deviceIconMap } from "../../components/icons_map";
 
 interface TransmissionParamsProps {
-  device: Device;
+  sensor: Sensor;
 }
 
 export default function TransmissionParams(props: TransmissionParamsProps) {
-  const { device } = props;
+  const { sensor } = props;
   const [checked, setChecked] = useState(false);
   const [level, setLevel] = useState("");
 
@@ -31,10 +30,7 @@ export default function TransmissionParams(props: TransmissionParamsProps) {
 
   return (
     <>
-      <div className="flex items-center">
-        {deviceIconMap[device.name]}
-        <h2 className="m-0">{device.name}</h2>
-      </div>
+      <h2 className="m-0">{sensor.name}</h2>
       <div className="pt-6">
         <div>
           <div>
@@ -44,12 +40,12 @@ export default function TransmissionParams(props: TransmissionParamsProps) {
           <div>
             <h5 className="mt-7 mb-4">設定パラメータ</h5>
             <TextField
-              label={device.envCondition}
+              label={sensor.name}
               type="number"
               size="small"
               InputProps={{
                 endAdornment: (
-                  <InputAdornment position="end">{device.unit}</InputAdornment>
+                  <InputAdornment position="end">{sensor.unit}</InputAdornment>
                 ),
               }}
               InputLabelProps={{
@@ -104,6 +100,36 @@ export default function TransmissionParams(props: TransmissionParamsProps) {
                 }}
               />
             </LocalizationProvider>
+          </div>
+          <div>
+            <h5 className="mt-10 mb-4">反映時間間隔 / 作用時間</h5>
+            <TextField
+              label="反映時間"
+              type="number"
+              size="small"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">分</InputAdornment>
+                ),
+              }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              sx={{ marginRight: "8px" }}
+            />
+            <TextField
+              label="反映時間間隔"
+              type="number"
+              size="small"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">分</InputAdornment>
+                ),
+              }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
           </div>
 
           <div>

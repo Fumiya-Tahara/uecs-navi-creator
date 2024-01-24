@@ -17,7 +17,7 @@ const iconTheme = createTheme({
 });
 
 export const deviceIconMap: iconMap = {
-  温度調節器: (
+  加温器: (
     <ThemeProvider theme={iconTheme}>
       <DeviceThermostatIcon fontSize="large" color="primary" />
     </ThemeProvider>

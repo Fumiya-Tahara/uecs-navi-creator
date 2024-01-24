@@ -23,6 +23,7 @@ export function DeviceCard(props: DeviceCardProps) {
   return (
     <div>
       <Card
+        raised={true}
         sx={{
           padding: "16px",
           backgroundColor: "rgb(209 213 219)",

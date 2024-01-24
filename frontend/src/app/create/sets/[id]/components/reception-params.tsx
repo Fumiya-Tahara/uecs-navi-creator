@@ -2,25 +2,26 @@ import {
   Switch,
   TextField,
   InputAdornment,
-  Box,
+  Select,
+  SelectChangeEvent,
   FormControl,
   InputLabel,
-  Select,
   MenuItem,
-  SelectChangeEvent,
+  Box,
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import { Sensor } from "../../interfaces/interfaces";
+import { Device } from "../../../interfaces/interfaces";
 import { useState } from "react";
+import { deviceIconMap } from "../../../components/icons_map";
 
 interface ReceptionParamsProps {
-  sensor: Sensor;
+  device: Device;
 }
 
 export default function ReceptionParams(props: ReceptionParamsProps) {
-  const { sensor } = props;
+  const { device } = props;
   const [checked, setChecked] = useState(false);
   const [level, setLevel] = useState("");
 
@@ -30,7 +31,10 @@ export default function ReceptionParams(props: ReceptionParamsProps) {
 
   return (
     <>
-      <h2 className="m-0">{sensor.name}</h2>
+      <div className="flex items-center">
+        {deviceIconMap[device.name]}
+        <h2 className="m-0">{device.name}</h2>
+      </div>
       <div className="pt-6">
         <div>
           <div>
@@ -40,12 +44,12 @@ export default function ReceptionParams(props: ReceptionParamsProps) {
           <div>
             <h5 className="mt-7 mb-4">設定パラメータ</h5>
             <TextField
-              label={sensor.name}
+              label={device.envCondition}
               type="number"
               size="small"
               InputProps={{
                 endAdornment: (
-                  <InputAdornment position="end">{sensor.unit}</InputAdornment>
+                  <InputAdornment position="end">{device.unit}</InputAdornment>
                 ),
               }}
               InputLabelProps={{
@@ -169,31 +173,9 @@ export default function ReceptionParams(props: ReceptionParamsProps) {
               />
             </div>
           </div>
+
           <div>
-            <h5 className="mt-10 mb-4">データ送信のタイミング</h5>
-            <Box sx={{ width: "30%" }}>
-              <FormControl fullWidth size="small">
-                <InputLabel id="demo-simple-select-label">レベル</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={level}
-                  label="レベル"
-                  onChange={handleChange}
-                >
-                  <MenuItem value={1}>A-1S-0</MenuItem>
-                  <MenuItem value={2}>A-1S-1</MenuItem>
-                  <MenuItem value={3}>A-10S-0</MenuItem>
-                  <MenuItem value={4}>A-10S-1</MenuItem>
-                  <MenuItem value={5}>A-1M-0</MenuItem>
-                  <MenuItem value={6}>A-1M-1</MenuItem>
-                  <MenuItem value={7}>B-0</MenuItem>
-                  <MenuItem value={8}>B-1</MenuItem>
-                  <MenuItem value={9}>S-1S-0</MenuItem>
-                  <MenuItem value={10}>S-1M-0</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
+            <h5 className="mt-10 mb-4">リレー</h5>
           </div>
         </div>
       </div>

@@ -12,9 +12,9 @@ import { ThemeProvider } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
 import { wholeTheme } from "@/features/themes/theme";
 import { useEffect, useState } from "react";
+import ReceptionParams from "./components/reception-params";
 import TransmissionParams from "./components/transmission-params";
-import ReceptionParams from "./components/reception-parameter";
-import { Device, Sensor } from "../interfaces/interfaces";
+import { Device, Sensor } from "../../interfaces/interfaces";
 import {
   getSelectedDeviceList,
   getEnvConditionList,
@@ -82,9 +82,9 @@ export default function Detail() {
         className="p-16"
         style={{ backgroundColor: "rgb(209 213 219)", borderRadius: "12px" }}
       >
-        <TransmissionParams device={device} />
+        <ReceptionParams device={device} />
       </div>
-      <div className="pt-16">
+      {/* <div className="pt-16">
         <div
           style={{
             width: "100%",
@@ -161,7 +161,7 @@ export default function Detail() {
             );
           })}
         </Box>
-      </div>
+      </div> */}
     </div>
   );
 }
