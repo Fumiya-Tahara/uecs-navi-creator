@@ -16,25 +16,25 @@ const iconTheme = createTheme({
   },
 });
 
-export const deviceIconMap: iconMap = {
-  温度調節器: (
+export const envConditionIconMap: iconMap = {
+  気温: (
     <ThemeProvider theme={iconTheme}>
       <DeviceThermostatIcon fontSize="large" color="primary" />
     </ThemeProvider>
   ),
-  噴霧器: (
+  湿度: (
     <ThemeProvider theme={iconTheme}>
       <WaterDropIcon fontSize="large" color="primary" />
     </ThemeProvider>
   ),
-  CO2供給装置: (
-    <ThemeProvider theme={iconTheme}>
-      <Co2Icon fontSize="large" color="primary" />
-    </ThemeProvider>
-  ),
-  照明: (
-    <ThemeProvider theme={iconTheme}>
-      <LightIcon fontSize="large" color="primary" />
-    </ThemeProvider>
-  ),
+  // CO2供給装置: (
+  //   <ThemeProvider theme={iconTheme}>
+  //     <Co2Icon fontSize="large" color="primary" />
+  //   </ThemeProvider>
+  // ),
+  // 照明: (
+  //   <ThemeProvider theme={iconTheme}>
+  //     <LightIcon fontSize="large" color="primary" />
+  //   </ThemeProvider>
+  // ),
 };

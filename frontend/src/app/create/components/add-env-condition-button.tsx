@@ -16,16 +16,16 @@ import {
 import { wholeTheme } from "@/features/themes/theme";
 import { styled } from "@mui/system";
 import { useState } from "react";
-import { Sensor } from "../../interfaces/interfaces";
+import { EnvCondition } from "../interfaces/interfaces";
 
-interface AddSensorButtonProps {
-  sensorList: Sensor[];
-  selectedSensor: Sensor[];
-  setSelectedSensor: React.Dispatch<React.SetStateAction<Sensor[]>>;
+interface AddEnvConditionButtonProps {
+  envConditionList: EnvCondition[];
+  selectedEnvCondition: EnvCondition[];
+  setSelectedEnvCondition: React.Dispatch<React.SetStateAction<EnvCondition[]>>;
 }
 
 const modalStyle = {
-  position: "absolute",
+  position: "absolute" as "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
@@ -43,8 +43,9 @@ const LargeAddCircleIcon = styled(AddCircleIcon)({
   fontSize: "80px",
 });
 
-export function AddSensorButton(props: AddSensorButtonProps) {
-  const { sensorList, selectedSensor, setSelectedSensor } = props;
+export function AddEnvConditionButton(props: AddEnvConditionButtonProps) {
+  const { envConditionList, selectedEnvCondition, setSelectedEnvCondition } =
+    props;
 
   const [open, setOpen] = useState(false);
   const [selectBoxValue, setSelectBoxValue] = useState("");
@@ -55,21 +56,24 @@ export function AddSensorButton(props: AddSensorButtonProps) {
     setSelectBoxValue(event.target.value as string);
   };
   const handleClick = () => {
-    const intSensorId: number = parseInt(selectBoxValue);
-    const selectboxSensor: Sensor | undefined = sensorList.find(
-      (sensor) => sensor.id === intSensorId
-    );
-    if (!selectboxSensor) {
+    const intEnvConditionId: number = parseInt(selectBoxValue);
+    const selectboxEnvCondition: EnvCondition | undefined =
+      envConditionList.find(
+        (envCondition) => envCondition.id === intEnvConditionId
+      );
+    if (!selectboxEnvCondition) {
       return;
     }
     if (
-      selectedSensor.some((eachSensor) => eachSensor.id === selectboxSensor.id)
+      selectedEnvCondition.some(
+        (eachEnvCondition) => eachEnvCondition.id === selectboxEnvCondition.id
+      )
     ) {
       return;
     } else {
-      setSelectedSensor((preSelectedSensor) => [
-        ...preSelectedSensor,
-        selectboxSensor,
+      setSelectedEnvCondition((preSelectedEnvCondition) => [
+        ...preSelectedEnvCondition,
+        selectboxEnvCondition,
       ]);
       setSelectBoxValue("");
       setOpen(false);
@@ -79,11 +83,7 @@ export function AddSensorButton(props: AddSensorButtonProps) {
   return (
     <div>
       <ThemeProvider theme={wholeTheme}>
-        <LargeIconButton
-          onClick={handleOpen}
-          color="primary"
-          sx={{ position: "absolute", bottom: "100px", right: "100px" }}
-        >
+        <LargeIconButton onClick={handleOpen} color="primary">
           <LargeAddCircleIcon />
         </LargeIconButton>
       </ThemeProvider>
@@ -107,9 +107,9 @@ export function AddSensorButton(props: AddSensorButtonProps) {
                   label="環境条件を選択してください"
                   onChange={handleChange}
                 >
-                  {sensorList.map((sensor, index) => (
-                    <MenuItem key={index} value={sensor.id}>
-                      {sensor.name}
+                  {envConditionList.map((envCondition, index) => (
+                    <MenuItem key={index} value={envCondition.id}>
+                      {envCondition.name}
                     </MenuItem>
                   ))}
                 </Select>

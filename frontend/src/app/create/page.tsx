@@ -1,41 +1,69 @@
 "use client";
-import { Box } from "@mui/material";
-import { AddDeviceButton } from "./components/add-device-button";
+import { Box, Breadcrumbs } from "@mui/material";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import { AddEnvConditionButton } from "./components/add-env-condition-button";
 import { useState } from "react";
-import { Device } from "./interfaces/interfaces";
-import { getDeviceList } from "../../features/stub/create-func";
-import { DeviceCard } from "./components/device-card";
+import { EnvCondition } from "./interfaces/interfaces";
+import { getEnvConditionList } from "../../features/stub/create-func";
+import { EnvConditionCard } from "./components/env-condition-card";
+import { grey } from "@mui/material/colors";
+import Link from "next/link";
 
 function Create() {
-  const [selectedDevice, setSelectedDevice] = useState<Device[]>([]);
+  const [selectedEnvCondition, setSelectedEnvCondition] = useState<
+    EnvCondition[]
+  >([]);
 
-  const deviceList: Device[] = getDeviceList();
+  const envConditionList: EnvCondition[] = getEnvConditionList();
 
   return (
     <div className="min-h-screen py-20">
       <Box sx={{ position: "fixed", bottom: "120px", right: "120px" }}>
-        <AddDeviceButton
-          deviceList={deviceList}
-          selectedDevice={selectedDevice}
-          setSelectedDevice={setSelectedDevice}
+        <AddEnvConditionButton
+          envConditionList={envConditionList}
+          selectedEnvCondition={selectedEnvCondition}
+          setSelectedEnvCondition={setSelectedEnvCondition}
         />
       </Box>
+      <Box
+        sx={{
+          position: "absolute",
+          top: "80px",
+          left: "20px",
+        }}
+      >
+        <Breadcrumbs
+          separator={<NavigateNextIcon fontSize="small" />}
+          aria-label="breadcrumb"
+          sx={{ fontSize: "0.8rem" }}
+        >
+          <Link
+            href="/create"
+            style={{
+              color: "inherit",
+            }}
+          >
+            制御装置の作成
+          </Link>
+          <Box>加温器</Box>,
+        </Breadcrumbs>
+      </Box>
       <div className="grid grid-cols-12 gap-4">
-        {selectedDevice.length == 0 ? (
+        {selectedEnvCondition.length == 0 ? (
           <div className="col-start-4 col-span-6 flex justify-center items-center">
             <div className="text-4xl text-gray-300">
-              デバイスを選択してください
+              環境条件を追加してください
             </div>
           </div>
         ) : (
           <div className="col-start-3 col-span-8 grid grid-cols-3 gap-20">
-            {selectedDevice.map((device, index) => {
+            {selectedEnvCondition.map((envCondition, index) => {
               return (
                 <div key={index}>
-                  <DeviceCard
-                    device={device}
-                    selectedDevice={selectedDevice}
-                    setSelectedDevice={setSelectedDevice}
+                  <EnvConditionCard
+                    envCondition={envCondition}
+                    selectedEnvCondition={selectedEnvCondition}
+                    setSelectedEnvCondition={setSelectedEnvCondition}
                   />
                 </div>
               );
