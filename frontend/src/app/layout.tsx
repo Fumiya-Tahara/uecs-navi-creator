@@ -21,7 +21,7 @@ export default function RootLayout({
         className={`${inter.className}`}
         style={{
           color: "#1a1a1c",
-          backgroundColor: "rgb(243 244 246);",
+          backgroundColor: "rgb(243 244 246)",
           height: "100vh",
           margin: 0,
         }}

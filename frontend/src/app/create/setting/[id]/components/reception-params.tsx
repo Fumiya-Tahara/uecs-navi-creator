@@ -37,7 +37,7 @@ export default function ReceptionParams(props: ReceptionParamsProps) {
         {envConditionIconMap["気温"]}
         <h2 className="m-0">気温</h2>
       </div>
-      <div className="pt-6">
+      <div className="pt-3">
         <div>
           <div>
             <h5 className="mb-1">設定を有効にする</h5>
@@ -74,73 +74,75 @@ export default function ReceptionParams(props: ReceptionParamsProps) {
               />
             </div>
           </div>
-          <div>
-            <h5 className="mt-10 mb-4">反映時間</h5>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <TimePicker
-                label="反映開始"
-                ampm={false}
-                slots={{
-                  textField: (props) => (
-                    <TextField
-                      {...props}
-                      size="small"
-                      InputLabelProps={{ shrink: true }}
-                    />
+          <div className="flex">
+            <div>
+              <h5 className="mt-9 mb-4">反映時間</h5>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <TimePicker
+                  label="反映開始"
+                  ampm={false}
+                  slots={{
+                    textField: (props) => (
+                      <TextField
+                        {...props}
+                        size="small"
+                        InputLabelProps={{ shrink: true }}
+                      />
+                    ),
+                  }}
+                  sx={{ marginRight: "8px" }}
+                />
+              </LocalizationProvider>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <TimePicker
+                  label="反映終了"
+                  ampm={false}
+                  slots={{
+                    textField: (props) => (
+                      <TextField
+                        {...props}
+                        size="small"
+                        InputLabelProps={{ shrink: true }}
+                      />
+                    ),
+                  }}
+                />
+              </LocalizationProvider>
+            </div>
+            <div className="pl-12">
+              <h5 className="mt-9 mb-4">反映時間間隔 / 作用時間</h5>
+              <TextField
+                label="反映時間"
+                type="number"
+                size="small"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">分</InputAdornment>
                   ),
+                }}
+                InputLabelProps={{
+                  shrink: true,
                 }}
                 sx={{ marginRight: "8px" }}
               />
-            </LocalizationProvider>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <TimePicker
-                label="反映終了"
-                ampm={false}
-                slots={{
-                  textField: (props) => (
-                    <TextField
-                      {...props}
-                      size="small"
-                      InputLabelProps={{ shrink: true }}
-                    />
+              <TextField
+                label="反映時間間隔"
+                type="number"
+                size="small"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">分</InputAdornment>
                   ),
                 }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
-            </LocalizationProvider>
-          </div>
-          <div>
-            <h5 className="mt-10 mb-4">反映時間間隔 / 作用時間</h5>
-            <TextField
-              label="反映時間"
-              type="number"
-              size="small"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">分</InputAdornment>
-                ),
-              }}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              sx={{ marginRight: "8px" }}
-            />
-            <TextField
-              label="反映時間間隔"
-              type="number"
-              size="small"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">分</InputAdornment>
-                ),
-              }}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
+            </div>
           </div>
 
           <div>
-            <h5 className="mt-10 mb-4">ROOM / REGION / ORDER / PRIORITY</h5>
+            <h5 className="mt-9 mb-4">ROOM / REGION / ORDER / PRIORITY</h5>
             <div className="mt-2 grid grid-cols-12 gap-2">
               <TextField
                 label="ROOM"
@@ -178,7 +180,7 @@ export default function ReceptionParams(props: ReceptionParamsProps) {
           </div>
 
           <div>
-            <h5 className="mt-10 mb-4">リレーの選択</h5>
+            <h5 className="mt-9 mb-4">リレーの選択</h5>
             <div>
               <FormGroup aria-label="position" row>
                 <FormControlLabel
