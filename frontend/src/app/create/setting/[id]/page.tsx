@@ -9,7 +9,11 @@ import {
   getSelectedDeviceList,
   getEnvConditionList,
 } from "@/features/stub/create-func";
+import { Box } from "@mui/material";
 import { redirect, usePathname } from "next/navigation";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import Link from "next/link";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -53,9 +57,48 @@ export default function Detail() {
   }
 
   return (
-    <div className="min-h-screen py-16 px-20">
+    <div className="h-screen py-16 px-32">
+      <Box
+        sx={{
+          position: "absolute",
+          top: "80px",
+          left: "20px",
+        }}
+      >
+        <Breadcrumbs
+          separator={<NavigateNextIcon fontSize="small" />}
+          aria-label="breadcrumb"
+          sx={{ fontSize: "0.8rem" }}
+        >
+          <Link
+            href="/create"
+            style={{
+              color: "inherit",
+            }}
+          >
+            制御装置の作成
+          </Link>
+          <Link
+            href="/create"
+            style={{
+              color: "inherit",
+            }}
+          >
+            加温器
+          </Link>
+          <Link
+            href="/create"
+            style={{
+              color: "inherit",
+            }}
+          >
+            気温
+          </Link>
+          <Box>設定</Box>,
+        </Breadcrumbs>
+      </Box>
       <div
-        className="p-16"
+        className="py-6 px-6"
         style={{ backgroundColor: "rgb(209 213 219)", borderRadius: "12px" }}
       >
         <ReceptionParams device={device} />

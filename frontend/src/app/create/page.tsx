@@ -1,10 +1,13 @@
 "use client";
-import { Box } from "@mui/material";
+import { Box, Breadcrumbs } from "@mui/material";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { AddEnvConditionButton } from "./components/add-env-condition-button";
 import { useState } from "react";
 import { EnvCondition } from "./interfaces/interfaces";
 import { getEnvConditionList } from "../../features/stub/create-func";
 import { EnvConditionCard } from "./components/env-condition-card";
+import { grey } from "@mui/material/colors";
+import Link from "next/link";
 
 function Create() {
   const [selectedEnvCondition, setSelectedEnvCondition] = useState<
@@ -21,6 +24,29 @@ function Create() {
           selectedEnvCondition={selectedEnvCondition}
           setSelectedEnvCondition={setSelectedEnvCondition}
         />
+      </Box>
+      <Box
+        sx={{
+          position: "absolute",
+          top: "80px",
+          left: "20px",
+        }}
+      >
+        <Breadcrumbs
+          separator={<NavigateNextIcon fontSize="small" />}
+          aria-label="breadcrumb"
+          sx={{ fontSize: "0.8rem" }}
+        >
+          <Link
+            href="/create"
+            style={{
+              color: "inherit",
+            }}
+          >
+            制御装置の作成
+          </Link>
+          <Box>加温器</Box>,
+        </Breadcrumbs>
       </Box>
       <div className="grid grid-cols-12 gap-4">
         {selectedEnvCondition.length == 0 ? (
