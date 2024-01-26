@@ -3,9 +3,9 @@ from typing import List
 
 # BlockA: 個体識別情報
 class BlockA(BaseModel):
-    uecsid: bytes = Field(..., max_length=6)
+    uecsid: int
     macaddr: bytes = Field(..., max_length=6)
-    fix_dhcp_flag: bytes = Field(..., max_length=1)
+    fix_dhcp_flag: int
     fixed_ipaddress: bytes = Field(..., max_length=4)
     fixed_netmask: bytes = Field(..., max_length=4)
     fixed_defgw: bytes = Field(..., max_length=4)
@@ -15,6 +15,7 @@ class BlockA(BaseModel):
 
 # BlockBItem: 受信CCM情報
 class BlockBItem(BaseModel):
+    block_a_id:int
     valid: bytes = Field(..., max_length=1)
     room: bytes = Field(..., max_length=1)
     region: bytes = Field(..., max_length=1)

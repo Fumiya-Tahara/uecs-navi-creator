@@ -52,11 +52,13 @@ class BlockA(Base):
 
 
 
-class Block(Base):
-    __tablename__ = 'blocks'
+#  受信CCM情報
+
+class BlockB(Base):
+    __tablename__ = 'block_b'
+    # __tablename__ = 'blocks'
     id = Column(Integer, primary_key=True)
-    type = Column(String(50))
-        # id = Column(Integer, primary_key=True) 
+    ccm_type = Column(String(50))
     block_a_id = Column(Integer, ForeignKey('block_a.uecsid')) # BlockAのIDを参照,ブロックAとブロックBのリレーション
     block_a = relationship("BlockA", back_populates="BlockB_BlockA")
     valid = Column(SmallInteger)  
@@ -67,7 +69,7 @@ class Block(Base):
     lv = Column(Integer) #lvは1から10
     cast = Column(SmallInteger)  
     sr = Column(String)
-    ccm_type = Column(String(20))
+    # ccm_type = Column(String(20))
     unit = Column(String(10))
     sthr = Column(Integer) #  反映時間帯開始時間 (0〜23)
     stmn = Column(Integer)# 反映時間帯開始分 (0〜59)
@@ -77,18 +79,7 @@ class Block(Base):
     dumn = Column(Integer)#作用時間 (0~99)分 リレーがMAKEしている時間(分)
     rly_l = Column(SmallInteger) #0x2d  RLY1〜4までのリレーのどれをMAKEするか
     rly_h = Column(SmallInteger)  #0x2e  RLY5〜8までのリレーのどれをMAKEするか (後述)
-    __mapper_args__ = {
-        'polymorphic_identity':'block',
-        'polymorphic_on':type
-    }
-
-#  受信CCM情報
-
-class BlockB(Block):
-    # __tablename__ = 'block_b'
-    __mapper_args__ = {
-        'polymorphic_identity':'block_b',
-    }
+    block_a = relationship("BlockA", back_populates="BlockB_BlockA")
 
 # dummyの部分に後述する条件部分の記述が反映される。現状検討中
 # 受信CCMは0x1000番地から0x40ステップで配置される。
@@ -143,12 +134,33 @@ class BlockB(Block):
 
 
 # Block-Bとメンバーは同じである。
-class BlockC(Block):
-    # __tablename__ = 'block_c'
+class BlockC(Base):
+    __tablename__ = 'block_c'
+    id = Column(Integer, primary_key=True)
+    ccm_type = Column(String(50))
+        # id = Column(Integer, primary_key=True) 
+    block_a_id = Column(Integer, ForeignKey('block_a.uecsid')) # BlockAのIDを参照,ブロックAとブロックBのリレーション
+    block_a = relationship("BlockA", back_populates="BlockB_BlockA")
+    valid = Column(SmallInteger)  
+    room = Column(SmallInteger)   
+    region = Column(LargeBinary)
+    order = Column(Integer) # 0以上の整数,unsignedの代わり
+    priority = Column(SmallInteger)
+    lv = Column(Integer) #lvは1から10
+    cast = Column(SmallInteger)  
+    sr = Column(String)
+    ccm_type = Column(String(20))
+    unit = Column(String(10))
+    sthr = Column(Integer) #  反映時間帯開始時間 (0〜23)
+    stmn = Column(Integer)# 反映時間帯開始分 (0〜59)
+    edhr = Column(Integer)#反映時間帯終了時間 (0〜23)
+    edmn = Column(Integer)#反映時間帯終了分 (0〜59)
+    inmn = Column(Integer)#反映時間間隔 (0〜99)分
+    dumn = Column(Integer)#作用時間 (0~99)分 リレーがMAKEしている時間(分)
+    rly_l = Column(SmallInteger) #0x2d  RLY1〜4までのリレーのどれをMAKEするか
+    rly_h = Column(SmallInteger)  #0x2e  RLY5〜8までのリレーのどれをMAKEするか (後述)
+    block_a = relationship("BlockA", back_populates="BlockC_BlockA")
     
-    __mapper_args__ = {
-        'polymorphic_identity':'block_c',
-    }
 
   
 
