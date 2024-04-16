@@ -18,6 +18,9 @@ import {
   ThemeProvider,
   IconButton,
   TableFooter,
+  FormGroup,
+  FormControlLabel,
+  Switch,
 } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { wholeTheme } from "@/features/themes/theme";
@@ -77,121 +80,176 @@ const TableList = (props: TableListProps) => {
   }, [allIsValid]);
 
   return (
-    <TableRow>
-      <TableCell>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Checkbox
-            checked={isValid}
-            onChange={(event) => {
-              setIsValid(event.target.checked);
-            }}
-          />
-        </Box>
-      </TableCell>
-      <TableCell align="right">
-        <TextField
-          label="CCM Type"
-          size="small"
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-      </TableCell>
-      <TableCell align="right">
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-        >
+    <>
+      <TableRow>
+        <TableCell sx={{ borderBottom: "none" }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Checkbox
+              checked={isValid}
+              onChange={(event) => {
+                setIsValid(event.target.checked);
+              }}
+            />
+          </Box>
+        </TableCell>
+        <TableCell align="right" sx={{ borderBottom: "none" }}>
           <TextField
-            type="number"
+            label="CCM Type"
             size="small"
-            inputProps={{ min: 0, max: 23 }}
-          ></TextField>
-          <Box>：</Box>
-          <TextField
-            type="number"
-            size="small"
-            inputProps={{ min: 0, max: 59 }}
-          ></TextField>
-          <Box>〜</Box>
-          <TextField
-            type="number"
-            size="small"
-            inputProps={{ min: 0, max: 23 }}
-          ></TextField>
-          <Box>：</Box>
-          <TextField
-            type="number"
-            size="small"
-            inputProps={{ min: 0, max: 59 }}
-          ></TextField>
-        </Box>
-      </TableCell>
-      <TableCell align="right">
-        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <TextField
-            label="間隔"
-            type="number"
-            size="small"
-            InputProps={{
-              endAdornment: <InputAdornment position="end">分</InputAdornment>,
-            }}
-            inputProps={{ min: 0, max: 99 }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            sx={{ marginRight: "8px" }}
-          />
-          <TextField
-            label="作用時間"
-            type="number"
-            size="small"
-            InputProps={{
-              endAdornment: <InputAdornment position="end">分</InputAdornment>,
-            }}
-            inputProps={{ min: 0, max: 99 }}
             InputLabelProps={{
               shrink: true,
             }}
           />
-        </Box>
-      </TableCell>
-      <TableCell align="right">
-        <Box sx={{ display: "flex", gap: "4px", justifyContent: "flex-end" }}>
-          <TextField type="number" size="small" />
-          <TextField type="number" size="small" />
-          <TextField type="number" size="small" />
-          <TextField type="number" size="small" />
-        </Box>
-      </TableCell>
-      <TableCell align="right">
-        <FormControl sx={{ width: "100%" }} size="small">
-          <Select
-            value={param?.lv}
-            onChange={(event) => {
-              const lv = event.target.value;
-              setParamList({ ...param, lv: Number(lv) });
+        </TableCell>
+        <TableCell align="right" sx={{ borderBottom: "none" }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
             }}
-            style={{ width: "130px" }}
           >
-            <MenuItem value={0}></MenuItem>
-            <MenuItem value={1}>A-1S-0</MenuItem>
-            <MenuItem value={2}>A-1S-1</MenuItem>
-            <MenuItem value={3}>A-10S-0</MenuItem>
-            <MenuItem value={4}>A-10S-1</MenuItem>
-            <MenuItem value={5}>A-1M-0</MenuItem>
-            <MenuItem value={6}>A-1M-1</MenuItem>
-            <MenuItem value={7}>B-0</MenuItem>
-            <MenuItem value={8}>B-1</MenuItem>
-            <MenuItem value={9}>S-1S-0</MenuItem>
-            <MenuItem value={10}>S-1M-0</MenuItem>
-          </Select>
-        </FormControl>
-      </TableCell>
-    </TableRow>
+            <TextField
+              type="number"
+              size="small"
+              inputProps={{ min: 0, max: 23 }}
+            ></TextField>
+            <Box>：</Box>
+            <TextField
+              type="number"
+              size="small"
+              inputProps={{ min: 0, max: 59 }}
+            ></TextField>
+            <Box>〜</Box>
+            <TextField
+              type="number"
+              size="small"
+              inputProps={{ min: 0, max: 23 }}
+            ></TextField>
+            <Box>：</Box>
+            <TextField
+              type="number"
+              size="small"
+              inputProps={{ min: 0, max: 59 }}
+            ></TextField>
+          </Box>
+        </TableCell>
+        <TableCell align="right" sx={{ borderBottom: "none" }}>
+          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+            <TextField
+              label="間隔"
+              type="number"
+              size="small"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">分</InputAdornment>
+                ),
+              }}
+              inputProps={{ min: 0, max: 99 }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              sx={{ marginRight: "8px" }}
+            />
+            <TextField
+              label="作用時間"
+              type="number"
+              size="small"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">分</InputAdornment>
+                ),
+              }}
+              inputProps={{ min: 0, max: 99 }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </Box>
+        </TableCell>
+        <TableCell align="right" sx={{ borderBottom: "none" }}>
+          <Box sx={{ display: "flex", gap: "4px", justifyContent: "flex-end" }}>
+            <TextField type="number" size="small" />
+            <TextField type="number" size="small" />
+            <TextField type="number" size="small" />
+            <TextField type="number" size="small" />
+          </Box>
+        </TableCell>
+        <TableCell align="right" sx={{ borderBottom: "none" }}>
+          <FormControl sx={{ width: "100%" }} size="small">
+            <Select
+              value={param?.lv}
+              onChange={(event) => {
+                const lv = event.target.value;
+                setParamList({ ...param, lv: Number(lv) });
+              }}
+              style={{ width: "130px" }}
+            >
+              <MenuItem value={0}></MenuItem>
+              <MenuItem value={1}>A-1S-0</MenuItem>
+              <MenuItem value={2}>A-1S-1</MenuItem>
+              <MenuItem value={3}>A-10S-0</MenuItem>
+              <MenuItem value={4}>A-10S-1</MenuItem>
+              <MenuItem value={5}>A-1M-0</MenuItem>
+              <MenuItem value={6}>A-1M-1</MenuItem>
+              <MenuItem value={7}>B-0</MenuItem>
+              <MenuItem value={8}>B-1</MenuItem>
+              <MenuItem value={9}>S-1S-0</MenuItem>
+              <MenuItem value={10}>S-1M-0</MenuItem>
+            </Select>
+          </FormControl>
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell></TableCell>
+        <TableCell colSpan={5}>
+          <Box>
+            <FormGroup aria-label="position" row>
+              <FormControlLabel
+                control={<Switch sx={{ transform: "rotateZ(-90deg)" }} />}
+                label={<span className="text-xs">Relay 1</span>}
+                labelPlacement="bottom"
+              />
+              <FormControlLabel
+                control={<Switch sx={{ transform: "rotateZ(-90deg)" }} />}
+                label={<span className="text-xs">Relay 2</span>}
+                labelPlacement="bottom"
+              />
+              <FormControlLabel
+                control={<Switch sx={{ transform: "rotateZ(-90deg)" }} />}
+                label={<span className="text-xs">Relay 3</span>}
+                labelPlacement="bottom"
+              />
+              <FormControlLabel
+                control={<Switch sx={{ transform: "rotateZ(-90deg)" }} />}
+                label={<span className="text-xs">Relay 4</span>}
+                labelPlacement="bottom"
+              />
+              <FormControlLabel
+                control={<Switch sx={{ transform: "rotateZ(-90deg)" }} />}
+                label={<span className="text-xs">Relay 5</span>}
+                labelPlacement="bottom"
+              />
+              <FormControlLabel
+                control={<Switch sx={{ transform: "rotateZ(-90deg)" }} />}
+                label={<span className="text-xs">Relay 6</span>}
+                labelPlacement="bottom"
+              />
+              <FormControlLabel
+                control={<Switch sx={{ transform: "rotateZ(-90deg)" }} />}
+                label={<span className="text-xs">Relay 7</span>}
+                labelPlacement="bottom"
+              />
+              <FormControlLabel
+                control={<Switch sx={{ transform: "rotateZ(-90deg)" }} />}
+                label={<span className="text-xs">Relay 8</span>}
+                labelPlacement="bottom"
+              />
+            </FormGroup>
+          </Box>
+        </TableCell>
+      </TableRow>
+    </>
   );
 };
 
